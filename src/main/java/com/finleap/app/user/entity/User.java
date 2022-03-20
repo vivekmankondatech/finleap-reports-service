@@ -3,6 +3,7 @@
  */
 package com.finleap.app.user.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -62,8 +63,10 @@ public class User extends AuditableEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "name", nullable = false)
 	private String name;
 
+	@Column(name = "email_id", unique = true, nullable = false)
 	private String emailId;
 
 }

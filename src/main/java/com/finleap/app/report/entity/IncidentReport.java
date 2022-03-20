@@ -3,6 +3,8 @@
  */
 package com.finleap.app.report.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
@@ -15,6 +17,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Where;
 
 import com.finleap.app.common.entity.base.FileEntity;
+import com.finleap.app.report.converter.IncidentReportStatusConverter;
 import com.finleap.app.report.entity.enums.IncidentReportStatus;
 import com.finleap.app.user.entity.User;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -68,8 +71,11 @@ public class IncidentReport extends FileEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "title", nullable = false)
 	private String title;
 
+	@Column(name = "tour_type", columnDefinition = "bigint")
+	@Convert(converter = IncidentReportStatusConverter.class)
 	private IncidentReportStatus status;
 
 	@ManyToOne

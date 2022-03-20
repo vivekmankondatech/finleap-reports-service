@@ -32,9 +32,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	
+
 	// Hybernate Types
 	implementation 'com.vladmihalcea:hibernate-types-52:2.9.13'
+
+	implementation('org.springdoc:springdoc-openapi-ui:1.6.4')
 }
 
 tasks.named('test') {

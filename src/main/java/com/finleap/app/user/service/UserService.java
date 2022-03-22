@@ -3,7 +3,10 @@
  */
 package com.finleap.app.user.service;
 
-import com.finleap.app.user.web.dto.request.UserRequestDto;
+import com.finleap.app.common.response.dto.BaseResponseDto;
+import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
+import com.finleap.app.user.web.dto.request.UserModificationRequestDto;
+import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 /**
@@ -36,9 +39,32 @@ public interface UserService {
 	/**
 	 * Create User
 	 * 
-	 * @param userRequestDto
+	 * @param userRequestWithPasswordDto
 	 * @return
 	 */
-	UserResponseDto createUser(UserRequestDto userRequestDto);
+	UserResponseDto createUser(UserRequestWithPasswordDto userRequestWithPasswordDto);
+
+	/**
+	 * Modify User
+	 * 
+	 * @param userModificationRequestDto
+	 * @return
+	 */
+	UserResponseDto modifyUser(UserModificationRequestDto userModificationRequestDto);
+
+	/**
+	 * Delete User
+	 * 
+	 * @param userDeleteRequestDto
+	 * @return
+	 */
+	BaseResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto);
+
+	/**
+	 * Get Logged-in User Details
+	 * 
+	 * @return
+	 */
+	UserResponseDto getUser();
 
 }

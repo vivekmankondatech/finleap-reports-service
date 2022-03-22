@@ -3,9 +3,6 @@
  */
 package com.finleap.app.user.web.dto.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +23,7 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Vivek Mankonda
  * @version 1.0
- * @since 19 Mar 2022
+ * @since 23 Mar 2022
  */
 
 /**
@@ -35,7 +32,7 @@ import lombok.experimental.SuperBuilder;
  * <pre>
  * No.	Modified by (ID) 				Date (MM DD, YYYY) 	[BUG-ID] 	Description
  * ----------------------------------------------------------------------------------
- * 1	vivekmankonda.work@gmail.com		19 Mar 2022						Initial commit
+ * 1	vivekmankonda.work@gmail.com		23 Mar 2022						Initial commit
  * 
  * </pre>
  */
@@ -44,22 +41,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserRequestDto {
+public class UserDeleteRequestDto {
 
-	@NotEmpty(message = "First Name must be provided.")
-	private String firstName;
-
-	private String middleName;
-
-	@NotEmpty(message = "Last Name must be provided.")
-	private String lastName;
-
-	@Min(value = 18, message = "Minimum age must be 18.")
-	@Max(value = 150, message = "Valid age must be provided.")
-	private Integer age;
-
-	@Email(message = "Valid Email ID must be provided.")
-	@NotEmpty(message = "Email ID must be provided.")
-	private String emailId;
-
+	@NotEmpty(message = "Reason must be provided.")
+	private String reason;
 }

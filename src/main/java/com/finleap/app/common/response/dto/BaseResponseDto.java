@@ -1,11 +1,7 @@
 /**
  * 
  */
-package com.finleap.app.user.web.dto.response;
-
-import java.util.UUID;
-
-import com.finleap.app.user.web.dto.request.UserRequestDto;
+package com.finleap.app.common.response.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,13 +15,13 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * 
- * com.finleap.app.user.web.dto.response | finleap-reports-service
+ * com.finleap.app.common.response.dto | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
  * @author Vivek Mankonda
  * @version 1.0
- * @since 19 Mar 2022
+ * @since 23 Mar 2022
  */
 
 /**
@@ -34,7 +30,7 @@ import lombok.experimental.SuperBuilder;
  * <pre>
  * No.	Modified by (ID) 				Date (MM DD, YYYY) 	[BUG-ID] 	Description
  * ----------------------------------------------------------------------------------
- * 1	vivekmankonda.work@gmail.com		19 Mar 2022						Initial commit
+ * 1	vivekmankonda.work@gmail.com		23 Mar 2022						Initial commit
  * 
  * </pre>
  */
@@ -43,7 +39,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserResponseDto extends UserRequestDto {
+public class BaseResponseDto {
 
-	private UUID id;
+	private int statusCode;
 }

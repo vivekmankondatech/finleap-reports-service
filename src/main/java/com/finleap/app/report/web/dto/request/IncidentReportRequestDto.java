@@ -3,6 +3,12 @@
  */
 package com.finleap.app.report.web.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 /**
  * Any License information can go here
  */
@@ -28,6 +34,12 @@ package com.finleap.app.report.web.dto.request;
  * 
  * </pre>
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public class IncidentReportRequestDto {
 
+	private String name;
 }

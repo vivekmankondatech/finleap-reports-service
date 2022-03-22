@@ -18,6 +18,7 @@ import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -75,4 +76,8 @@ public class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	protected UUID id;
+
+	@Column(name = "is_deleted", columnDefinition = "boolean NOT NULL DEFAULT false")
+	@Builder.Default
+	private boolean isDeleted = false;
 }

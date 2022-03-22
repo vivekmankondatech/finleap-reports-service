@@ -63,10 +63,25 @@ public class User extends AuditableEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+
+	@Column(name = "middle_name")
+	private String middleName;
+
+	@Column(name = "last_name", nullable = false)
+	private String lastName;
+
+	@Column(name = "age")
+	private Integer age;
 
 	@Column(name = "email_id", unique = true, nullable = false)
 	private String emailId;
+
+	@Column(name = "password", nullable = false)
+	private String password;
+
+	@Column(name = "comments", nullable = false)
+	private String comments;
 
 }

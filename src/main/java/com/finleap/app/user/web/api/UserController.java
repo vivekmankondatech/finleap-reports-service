@@ -24,6 +24,7 @@ import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,10 +57,17 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("users")
 @Tag(name = "Users", description = "User Service")
+@SecurityRequirement(name = "finleap-api")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@GetMapping("public/greet")
+	public ResponseEntity<String> greet() {
+		String response = "The application is up and running.";
+		return ResponseEntity.ok(response);
+	}
 
 	// @formatter:off
 	@Operation(summary = "Create User", 

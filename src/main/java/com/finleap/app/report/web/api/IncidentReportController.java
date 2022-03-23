@@ -18,6 +18,7 @@ import com.finleap.app.report.web.dto.request.IncidentReportRequestDto;
 import com.finleap.app.report.web.dto.response.IncidentReportResponseDto;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,6 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("reports")
 @Tag(name = "Incident Reports", description = "Incident Report Service")
+@SecurityRequirement(name = "finleap-api")
 public class IncidentReportController {
 
 	@Autowired

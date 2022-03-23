@@ -4,6 +4,7 @@
 package com.finleap.app.common.response.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,5 +42,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class BaseResponseDto {
 
-	private int statusCode;
+	private String status;
+
+	@Builder.Default
+	private boolean errorOccurred = false;
+
+	private String errorCode;
 }

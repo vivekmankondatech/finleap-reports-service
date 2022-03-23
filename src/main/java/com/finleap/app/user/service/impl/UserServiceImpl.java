@@ -3,10 +3,11 @@
  */
 package com.finleap.app.user.service.impl;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.finleap.app.auth.util.AuthUtils;
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.User;
@@ -14,8 +15,8 @@ import com.finleap.app.user.mapper.UserMapper;
 import com.finleap.app.user.repository.UserRepository;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
-import com.finleap.app.user.web.dto.request.UserModificationRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
+import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +53,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private AuthUtils authUtils;
+//	@Autowired
+//	private AuthUtils authUtils;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -70,16 +71,38 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResponseDto modifyUser(UserModificationRequestDto userModificationRequestDto) {
+	public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "modifyUser", this.getClass().getName());
+		log.info(CommonConstants.LOG.ENTRY, "updateUser", this.getClass().getName());
 
 		User user = fetchOrFailLoggedInUser();
 
-		// modify
+		updateUserData(userUpdateRequestDto, user);
 
-		log.info(CommonConstants.LOG.EXIT, "modifyUser", this.getClass().getName());
+		user = userRepository.save(user);
+
+		log.info(CommonConstants.LOG.EXIT, "updateUser", this.getClass().getName());
 		return userMapper.toUserResponseDto(user);
+	}
+
+	private void updateUserData(UserUpdateRequestDto userUpdateRequestDto, User user) {
+
+		if (Objects.nonNull(userUpdateRequestDto.getAge())) {
+			user.setAge(userUpdateRequestDto.getAge());
+		}
+
+		if (Objects.nonNull(userUpdateRequestDto.getFirstName())) {
+			user.setFirstName(userUpdateRequestDto.getFirstName());
+		}
+
+		if (Objects.nonNull(userUpdateRequestDto.getMiddleName())) {
+			user.setMiddleName(userUpdateRequestDto.getMiddleName());
+		}
+
+		if (Objects.nonNull(userUpdateRequestDto.getLastName())) {
+			user.setLastName(userUpdateRequestDto.getLastName());
+		}
+
 	}
 
 	@Override
@@ -98,8 +121,14 @@ public class UserServiceImpl implements UserService {
 		return BaseResponseDto.builder().build();
 	}
 
+	/**
+	 * Fetch or Fail Logged-in User
+	 * 
+	 * @return
+	 */
 	private User fetchOrFailLoggedInUser() {
-		return authUtils.getLoggedInUser();
+		return new User();
+//		return authUtils.getLoggedInUserDetails().orElseThrow(RuntimeException::new);
 	}
 
 	@Override
@@ -107,10 +136,9 @@ public class UserServiceImpl implements UserService {
 
 		log.info(CommonConstants.LOG.ENTRY, "getUser", this.getClass().getName());
 
-		User user = fetchOrFailLoggedInUser();
-
 		log.info(CommonConstants.LOG.EXIT, "getUser", this.getClass().getName());
-		return userMapper.toUserResponseDto(user);
+
+		return userMapper.toUserResponseDto(fetchOrFailLoggedInUser());
 	}
 
 }

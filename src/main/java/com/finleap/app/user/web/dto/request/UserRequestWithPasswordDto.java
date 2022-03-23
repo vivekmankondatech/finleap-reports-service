@@ -41,7 +41,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserRequestWithPasswordDto extends UserRequestDto {
+public class UserRequestWithPasswordDto extends BaseUserRequestDto {
 
 	@NotEmpty(message = "Password must be provided.")
 	private String password;

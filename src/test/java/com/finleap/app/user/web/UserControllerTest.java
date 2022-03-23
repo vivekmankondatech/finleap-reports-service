@@ -30,6 +30,7 @@ import com.finleap.app.common.TestDataProvider;
 import com.finleap.app.common.util.JsonHelperUtil;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.api.UserController;
+import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
@@ -96,7 +97,7 @@ class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.empty").isBoolean())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		// @formatter:on	
@@ -151,4 +152,38 @@ class UserControllerTest {
 
 	}
 
+	@DisplayName("Test - Modify User")
+	@Test
+	void modifyUser() throws Exception {
+
+		// given
+		final UserUpdateRequestDto userModificationRequestDto = TestDataProvider.getUserModificationRequestDto();
+
+		final UserResponseDto userResponseDto = TestDataProvider.getUserResponseDto();
+
+		// when
+		when(userService.updateUser(userModificationRequestDto)).thenReturn(userResponseDto);
+
+		// @formatter:off
+		MvcResult result = mockMvc
+				.perform(MockMvcRequestBuilders.put("/users")
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+				.andDo(MockMvcResultHandlers.print())
+				.andReturn();
+		// @formatter:on	
+
+		UserResponseDto expectedResult = userService.updateUser(userModificationRequestDto);
+
+		// Check if the findAll method is called at-least once and only once
+		verify(userService, times(2)).getUser();
+		verifyNoMoreInteractions(userService);
+
+		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+
+		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
+
+	}
 }

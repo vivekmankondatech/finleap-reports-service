@@ -5,7 +5,7 @@ package com.finleap.app.user.web.dto.response;
 
 import java.util.UUID;
 
-import com.finleap.app.user.web.dto.request.UserRequestDto;
+import com.finleap.app.user.web.dto.request.BaseUserRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,7 +43,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserResponseDto extends UserRequestDto {
+public class UserResponseDto extends BaseUserRequestDto {
 
 	private UUID id;
 }

@@ -5,8 +5,8 @@ package com.finleap.app.user.service;
 
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
-import com.finleap.app.user.web.dto.request.UserModificationRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
+import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 /**
@@ -47,10 +47,10 @@ public interface UserService {
 	/**
 	 * Modify User
 	 * 
-	 * @param userModificationRequestDto
+	 * @param userUpdateRequestDto
 	 * @return
 	 */
-	UserResponseDto modifyUser(UserModificationRequestDto userModificationRequestDto);
+	UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto);
 
 	/**
 	 * Delete User

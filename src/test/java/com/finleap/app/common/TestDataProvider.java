@@ -3,6 +3,7 @@
  */
 package com.finleap.app.common;
 
+import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
@@ -42,6 +43,11 @@ public class TestDataProvider {
 	}
 
 	public static UserRequestWithPasswordDto getUserRequestWithPasswordDto() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static UserUpdateRequestDto getUserModificationRequestDto() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +19,8 @@ import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
-import com.finleap.app.user.web.dto.request.UserModificationRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
+import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,19 +80,19 @@ public class UserController {
 	}
 
 	// @formatter:off
-	@Operation(summary = "Modify User", 
-			description = "Modify logged-in User", 
+	@Operation(summary = "Update User", 
+			description = "Update logged-in User", 
 			tags = {"Users" })
 	// @formatter:on
-	@PatchMapping()
-	public ResponseEntity<UserResponseDto> modifyUser(
-			@Valid @RequestBody(required = true) UserModificationRequestDto userRequestDto) {
+	@PutMapping()
+	public ResponseEntity<UserResponseDto> updateUser(
+			@Valid @RequestBody(required = true) UserUpdateRequestDto userUpdateRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "modifyUser", this.getClass().getName());
+		log.info(CommonConstants.LOG.ENTRY, "updateUser", this.getClass().getName());
 
-		UserResponseDto userResponseDto = userService.modifyUser(userRequestDto);
+		UserResponseDto userResponseDto = userService.updateUser(userUpdateRequestDto);
 
-		log.info(CommonConstants.LOG.EXIT, "modifyUser", this.getClass().getName());
+		log.info(CommonConstants.LOG.EXIT, "updateUser", this.getClass().getName());
 
 		return ResponseEntity.ok(userResponseDto);
 	}

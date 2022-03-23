@@ -1,16 +1,18 @@
-package com.finleap.app;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
  * 
+ */
+package com.finleap.app.report.service;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+/**
  * Any License information can go here
  */
- 
+
 /**
  * 
- * com.finleap.app | finleap-reports-service
+ * com.finleap.app.report.service | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
@@ -29,11 +31,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * </pre>
  */
-@SpringBootApplication
-public class FinleapReportsServiceApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(FinleapReportsServiceApplication.class, args);
-	}
+@ExtendWith(MockitoExtension.class)
+class IncidentReportServiceTest {
 
 }

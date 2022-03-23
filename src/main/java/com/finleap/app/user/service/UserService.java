@@ -1,16 +1,18 @@
-package com.finleap.app;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
  * 
+ */
+package com.finleap.app.user.service;
+
+import com.finleap.app.user.web.dto.request.UserRequestDto;
+import com.finleap.app.user.web.dto.response.UserResponseDto;
+
+/**
  * Any License information can go here
  */
- 
+
 /**
  * 
- * com.finleap.app | finleap-reports-service
+ * com.finleap.app.user.service | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
@@ -29,11 +31,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * </pre>
  */
-@SpringBootApplication
-public class FinleapReportsServiceApplication {
+public interface UserService {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FinleapReportsServiceApplication.class, args);
-	}
+	/**
+	 * Create User
+	 * 
+	 * @param userRequestDto
+	 * @return
+	 */
+	UserResponseDto createUser(UserRequestDto userRequestDto);
 
 }

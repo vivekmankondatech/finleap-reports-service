@@ -1,16 +1,15 @@
-package com.finleap.app;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
  * 
+ */
+package com.finleap.app.report.web.dto.request;
+
+/**
  * Any License information can go here
  */
- 
+
 /**
  * 
- * com.finleap.app | finleap-reports-service
+ * com.finleap.app.report.web.dto.request | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
@@ -29,11 +28,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * </pre>
  */
-@SpringBootApplication
-public class FinleapReportsServiceApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(FinleapReportsServiceApplication.class, args);
-	}
+public class IncidentReportRequestDto {
 
 }

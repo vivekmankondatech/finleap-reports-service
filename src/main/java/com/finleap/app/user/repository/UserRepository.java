@@ -1,16 +1,23 @@
-package com.finleap.app;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
  * 
+ */
+package com.finleap.app.user.repository;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.finleap.app.user.entity.User;
+
+/**
  * Any License information can go here
  */
- 
+
 /**
  * 
- * com.finleap.app | finleap-reports-service
+ * com.finleap.app.user.repository | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
@@ -29,11 +36,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * </pre>
  */
-@SpringBootApplication
-public class FinleapReportsServiceApplication {
+@Repository
+public interface UserRepository extends JpaRepository<User, UUID> {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FinleapReportsServiceApplication.class, args);
-	}
+	List<User> findByEmailId(String emailId);
 
+	List<User> findByName(String name);
 }

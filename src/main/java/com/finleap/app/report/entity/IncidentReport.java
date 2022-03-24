@@ -74,7 +74,7 @@ public class IncidentReport extends FileEntity {
 	@Column(name = "title", nullable = false)
 	private String title;
 
-	@Column(name = "tour_type", columnDefinition = "bigint")
+	@Column(name = "status", columnDefinition = "bigint")
 	@Convert(converter = IncidentReportStatusConverter.class)
 	private IncidentReportStatus status;
 

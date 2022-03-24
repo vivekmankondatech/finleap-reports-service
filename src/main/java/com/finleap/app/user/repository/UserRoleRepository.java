@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.finleap.app.user.entity.UserRole;
+import com.finleap.app.user.entity.enums.UserRoleType;
 
 /**
  * Any License information can go here
@@ -39,8 +40,8 @@ import com.finleap.app.user.entity.UserRole;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, UUID> {
 
-	boolean existsByName(String name);
+	boolean existsByType(UserRoleType type);
 
-	Optional<UserRole> findByName(String customer);
+	Optional<UserRole> findByType(UserRoleType type);
 
 }

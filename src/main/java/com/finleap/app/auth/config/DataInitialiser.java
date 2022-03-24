@@ -3,9 +3,6 @@
  */
 package com.finleap.app.auth.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.UserRole;
+import com.finleap.app.user.entity.enums.UserRoleType;
 import com.finleap.app.user.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,17 +52,12 @@ public class DataInitialiser {
 
 		log.info(CommonConstants.LOG.ENTRY, "initUserRoleData", this.getClass().getName());
 
-		List<String> names = new ArrayList<>();
+		for (UserRoleType type : UserRoleType.values()) {
 
-		names.add(CommonConstants.RoleConstants.CUSTOMER);
-		names.add(CommonConstants.RoleConstants.ADMIN);
-
-		for (String name : names) {
-
-			if (!userRoleRepository.existsByName(name)) {
+			if (!userRoleRepository.existsByType(type)) {
 
 				UserRole userRole = new UserRole();
-				userRole.setName(name);
+				userRole.setType(type);
 				userRoleRepository.save(userRole);
 			}
 		}

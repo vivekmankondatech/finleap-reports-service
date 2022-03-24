@@ -6,11 +6,13 @@ package com.finleap.app.user.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import com.finleap.app.common.entity.base.BaseEntity;
+import com.finleap.app.user.converter.UserRoleTypeConverter;
+import com.finleap.app.user.entity.enums.UserRoleType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,7 +56,7 @@ public class UserRole extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
-	@Column(name = "name")
-	private String name;
+	@Column(name = "type", columnDefinition = "bigint")
+	@Convert(converter = UserRoleTypeConverter.class)
+	private UserRoleType type;
 }

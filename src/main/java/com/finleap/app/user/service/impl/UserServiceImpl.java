@@ -5,14 +5,20 @@ package com.finleap.app.user.service.impl;
 
 import java.util.Objects;
 
+import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finleap.app.auth.service.CustomUserDetailsService;
 import com.finleap.app.common.exception.DataNotFoundException;
+import com.finleap.app.common.exception.NotAcceptableException;
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.User;
 import com.finleap.app.user.entity.UserRole;
+import com.finleap.app.user.entity.enums.UserRoleType;
 import com.finleap.app.user.mapper.UserMapper;
 import com.finleap.app.user.repository.UserRepository;
 import com.finleap.app.user.repository.UserRoleRepository;
@@ -59,20 +65,21 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRoleRepository userRoleRepository;
 
-//	@Autowired
-//	private AuthUtils authUtils;
+	@Autowired
+	private CustomUserDetailsService customUserDetailsService;
 
 	@Autowired
 	private UserMapper userMapper;
 
 	@Override
+	@Transactional
 	public UserResponseDto createUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "createUser", this.getClass().getName());
 
 		User user = userMapper.toUser(userRequestWithPasswordDto);
-		String name = "";
-		user.setUserRole(fetchOrFailUserRoleByName(name));
+
+		user.setUserRole(fetchOrFailUserRoleByType(UserRoleType.EMPLOYEE));
 
 		user = userRepository.save(user);
 
@@ -82,15 +89,21 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * 
-	 * @param name
+	 * @param type
 	 * @return
 	 */
-	private UserRole fetchOrFailUserRoleByName(String name) {
-		return userRoleRepository.findByName(name).orElseThrow(DataNotFoundException::new);
+	private UserRole fetchOrFailUserRoleByType(UserRoleType type) {
+
+		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailUserRoleByType", this.getClass().getName());
+
+		log.info(CommonConstants.LOG.EXIT, "fetchOrFailUserRoleByType", this.getClass().getName());
+
+		return userRoleRepository.findByType(type).orElseThrow(DataNotFoundException::new);
 
 	}
 
 	@Override
+	@Transactional
 	public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "updateUser", this.getClass().getName());
@@ -107,25 +120,41 @@ public class UserServiceImpl implements UserService {
 
 	private void updateUserData(UserUpdateRequestDto userUpdateRequestDto, User user) {
 
+		boolean isUpdated = false;
+
 		if (Objects.nonNull(userUpdateRequestDto.getAge())) {
 			user.setAge(userUpdateRequestDto.getAge());
+			isUpdated = true;
 		}
 
-		if (Objects.nonNull(userUpdateRequestDto.getFirstName())) {
+		if (StringUtils.isAllBlank(userUpdateRequestDto.getFirstName())) {
 			user.setFirstName(userUpdateRequestDto.getFirstName());
+			isUpdated = true;
 		}
 
-		if (Objects.nonNull(userUpdateRequestDto.getMiddleName())) {
+		if (StringUtils.isAllBlank(userUpdateRequestDto.getMiddleName())) {
 			user.setMiddleName(userUpdateRequestDto.getMiddleName());
+			isUpdated = true;
 		}
 
-		if (Objects.nonNull(userUpdateRequestDto.getLastName())) {
+		if (StringUtils.isAllBlank(userUpdateRequestDto.getLastName())) {
 			user.setLastName(userUpdateRequestDto.getLastName());
+			isUpdated = true;
+		}
+
+		if (StringUtils.isAllBlank(userUpdateRequestDto.getEmailId())) {
+			user.setEmailId(userUpdateRequestDto.getEmailId());
+			isUpdated = true;
+		}
+
+		if (!isUpdated) {
+			throw new NotAcceptableException("No Updates were provided.");
 		}
 
 	}
 
 	@Override
+	@Transactional
 	public BaseResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "deleteUser", this.getClass().getName());
@@ -147,8 +176,12 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	private User fetchOrFailLoggedInUser() {
-		return new User();
-//		return authUtils.getLoggedInUserDetails().orElseThrow(RuntimeException::new);
+
+		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailLoggedInUser", this.getClass().getName());
+
+		log.info(CommonConstants.LOG.EXIT, "fetchOrFailLoggedInUser", this.getClass().getName());
+
+		return customUserDetailsService.getLoggedInUser();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.finleap.app.auth.service;
+package com.finleap.app.auth.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,7 +60,7 @@ public class CustomUserDetails extends User implements UserDetails {
 		 **/
 		if (null != super.getUserRole()) {
 			authorities.add(
-					new SimpleGrantedAuthority(CommonConstants.Generic.ROLE_DELIMITER + super.getUserRole().getName()));
+					new SimpleGrantedAuthority(CommonConstants.Generic.ROLE_DELIMITER + super.getUserRole().getType()));
 		}
 
 		return authorities;

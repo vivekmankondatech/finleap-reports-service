@@ -72,10 +72,4 @@ public interface CommonConstants {
 		public String FILENAME_TEMPLATE = "%s.%s";
 	}
 
-	public interface RoleConstants {
-
-		public String CUSTOMER = "CUSTOMER";
-		public String ADMIN = "ADMIN";
-
-	}
 }

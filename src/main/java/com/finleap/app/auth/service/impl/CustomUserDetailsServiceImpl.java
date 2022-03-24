@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.finleap.app.auth.service.CustomUserDetails;
+import com.finleap.app.auth.config.CustomUserDetails;
 import com.finleap.app.auth.service.CustomUserDetailsService;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.User;

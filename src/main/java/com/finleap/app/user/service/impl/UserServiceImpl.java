@@ -8,11 +8,14 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finleap.app.common.exception.DataNotFoundException;
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.UserRole;
 import com.finleap.app.user.mapper.UserMapper;
 import com.finleap.app.user.repository.UserRepository;
+import com.finleap.app.user.repository.UserRoleRepository;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
@@ -53,6 +56,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private UserRoleRepository userRoleRepository;
+
 //	@Autowired
 //	private AuthUtils authUtils;
 
@@ -60,14 +66,28 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 
 	@Override
-	public UserResponseDto createUser(UserRequestWithPasswordDto userRequestDto) {
+	public UserResponseDto createUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "createUser", this.getClass().getName());
 
-		User user = User.builder().build();
+		User user = userMapper.toUser(userRequestWithPasswordDto);
+		String name = "";
+		user.setUserRole(fetchOrFailUserRoleByName(name));
+
+		user = userRepository.save(user);
 
 		log.info(CommonConstants.LOG.EXIT, "createUser", this.getClass().getName());
 		return userMapper.toUserResponseDto(user);
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private UserRole fetchOrFailUserRoleByName(String name) {
+		return userRoleRepository.findByName(name).orElseThrow(DataNotFoundException::new);
+
 	}
 
 	@Override

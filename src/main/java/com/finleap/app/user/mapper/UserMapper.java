@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.User;
+import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,21 @@ public class UserMapper {
 				.middleName(user.getMiddleName())
 				.build();
 		// @formatter:on
+	}
+
+	public User toUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
+
+		// @formatter:off
+		return User.builder()
+				.age(userRequestWithPasswordDto.getAge())
+				.emailId(userRequestWithPasswordDto.getEmailId())
+				.firstName(userRequestWithPasswordDto.getFirstName())
+				.lastName(userRequestWithPasswordDto.getLastName())
+				.lastName(userRequestWithPasswordDto.getLastName())
+				.middleName(userRequestWithPasswordDto.getMiddleName())
+				.password(userRequestWithPasswordDto.getPassword())
+				.build();
+		// @formatter:on		
 	}
 
 }

@@ -3,11 +3,15 @@
  */
 package com.finleap.app.auth.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.User;
 
 /**
@@ -35,56 +39,62 @@ import com.finleap.app.user.entity.User;
  * 
  * </pre>
  */
-public class MyUserPrincipal implements UserDetails {
+public class CustomUserDetails extends User implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	private User user;
-
-	public MyUserPrincipal(User user) {
-		this.user = user;
+	/**
+	 * @param user
+	 * 
+	 */
+	public CustomUserDetails(User user) {
+		super(user);
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public String getPassword() {
-		return null;
-	}
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		/**
+		 * The roles get appended with 'ROLE_' string when authorities are mapped
+		 **/
+		if (null != super.getUserRole()) {
+			authorities.add(
+					new SimpleGrantedAuthority(CommonConstants.Generic.ROLE_DELIMITER + super.getUserRole().getName()));
+		}
 
-	@Override
-	public String getUsername() {
-		return this.user.getEmailId();
+		return authorities;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		// 0 - false, 1 - true
+		return !super.isAccountLocked();
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+		// 0 - false, 1 - true
+		return !super.isAccountLocked();
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		// 0 - false, 1 - true
+		return !super.isCredentialsExpired();
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return !this.user.isDeleted();
+		return super.isEnabled();
+	}
+
+	/**
+	 * Get the username from the User class
+	 */
+	@Override
+	public String getUsername() {
+		return super.getEmailId();
 	}
 
 }

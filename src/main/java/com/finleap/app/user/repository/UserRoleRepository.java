@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.UserRole;
 
 /**
  * Any License information can go here
@@ -23,7 +23,7 @@ import com.finleap.app.user.entity.User;
  *
  * @author Vivek Mankonda
  * @version 1.0
- * @since 19 Mar 2022
+ * @since 25 Mar 2022
  */
 
 /**
@@ -32,17 +32,15 @@ import com.finleap.app.user.entity.User;
  * <pre>
  * No.	Modified by (ID) 				Date (MM DD, YYYY) 	[BUG-ID] 	Description
  * ----------------------------------------------------------------------------------
- * 1	vivekmankonda.work@gmail.com		19 Mar 2022						Initial commit
+ * 1	vivekmankonda.work@gmail.com		25 Mar 2022						Initial commit
  * 
  * </pre>
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRoleRepository extends JpaRepository<UserRole, UUID> {
 
-	Optional<User> findByEmailId(String emailId);
+	boolean existsByName(String name);
 
-	Optional<String> getPasswordByEmailIdIgnoreCase(String username);
-
-	Optional<User> findOneByEmailIdIgnoreCase(String username);
+	Optional<UserRole> findByName(String customer);
 
 }

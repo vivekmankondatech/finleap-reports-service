@@ -3,6 +3,7 @@
  */
 package com.finleap.app.user.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,5 +45,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 	Optional<String> getPasswordByEmailIdIgnoreCase(String username);
 
 	Optional<User> findOneByEmailIdIgnoreCase(String username);
+
+	List<User> findByIdNotIn(List<UUID> userIds);
 
 }

@@ -16,7 +16,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Where;
 
-import com.finleap.app.common.entity.base.FileEntity;
+import com.finleap.app.common.entity.base.AuditableEntity;
 import com.finleap.app.report.converter.IncidentReportStatusConverter;
 import com.finleap.app.report.entity.enums.IncidentReportStatus;
 import com.finleap.app.user.entity.User;
@@ -64,7 +64,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class IncidentReport extends FileEntity {
+public class IncidentReport extends AuditableEntity {
 
 	/**
 	 * 

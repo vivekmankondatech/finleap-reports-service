@@ -3,7 +3,12 @@
  */
 package com.finleap.app.user.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import com.finleap.app.common.response.dto.BaseResponseDto;
+import com.finleap.app.user.entity.User;
 import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
@@ -66,5 +71,7 @@ public interface UserService {
 	 * @return
 	 */
 	UserResponseDto getUser();
+
+	Optional<User> getNewAssigneeByUserIdsNotIn(List<UUID> userIds);
 
 }

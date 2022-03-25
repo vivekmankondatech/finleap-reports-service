@@ -3,13 +3,17 @@
  */
 package com.finleap.app.user.service.impl;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.finleap.app.auth.service.CustomUserDetailsService;
 import com.finleap.app.common.exception.DataNotFoundException;
@@ -192,6 +196,14 @@ public class UserServiceImpl implements UserService {
 		log.info(CommonConstants.LOG.EXIT, "getUser", this.getClass().getName());
 
 		return userMapper.toUserResponseDto(fetchOrFailLoggedInUser());
+	}
+
+	@Override
+	public Optional<User> getNewAssigneeByUserIdsNotIn(List<UUID> userIds) {
+
+		List<User> users = userRepository.findByIdNotIn(userIds);
+
+		return CollectionUtils.isEmpty(users) ? Optional.empty() : Optional.of(users.get(0));
 	}
 
 }

@@ -3,11 +3,8 @@
  */
 package com.finleap.app.report.web.dto.response;
 
-import java.util.UUID;
+import com.finleap.app.user.web.dto.response.BaseUserResponseDto;
 
-import com.finleap.app.report.entity.enums.IncidentReportStatus;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +22,7 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Vivek Mankonda
  * @version 1.0
- * @since 19 Mar 2022
+ * @since 25 Mar 2022
  */
 
 /**
@@ -34,22 +31,14 @@ import lombok.experimental.SuperBuilder;
  * <pre>
  * No.	Modified by (ID) 				Date (MM DD, YYYY) 	[BUG-ID] 	Description
  * ----------------------------------------------------------------------------------
- * 1	vivekmankonda.work@gmail.com		19 Mar 2022						Initial commit
+ * 1	vivekmankonda.work@gmail.com		25 Mar 2022						Initial commit
  * 
  * </pre>
  */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class IncidentReportResponseDto {
+public class AssigneeResponseDto extends BaseUserResponseDto {
 
-	private String title;
-
-	private IncidentReportStatus status;
-
-	private AssigneeResponseDto assignee;
-
-	private UUID id;
 }

@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.finleap.app.report.web.dto.response;
+package com.finleap.app.user.web.dto.response;
 
 import java.util.UUID;
 
-import com.finleap.app.report.entity.enums.IncidentReportStatus;
+import com.finleap.app.user.web.dto.request.BaseUserRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * 
- * com.finleap.app.report.web.dto.response | finleap-reports-service
+ * com.finleap.app.user.web.dto.response | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
@@ -43,13 +43,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class IncidentReportResponseDto {
-
-	private String title;
-
-	private IncidentReportStatus status;
-
-	private AssigneeResponseDto assignee;
+public class BaseUserResponseDto extends BaseUserRequestDto {
 
 	private UUID id;
 }

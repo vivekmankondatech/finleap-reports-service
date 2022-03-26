@@ -13,6 +13,8 @@ import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -61,6 +63,30 @@ public class RestControllerExceptionHandler extends BaseExceptionHandler {
 	protected RestControllerExceptionHandler(MessageSource messageSource) {
 		super(messageSource);
 		this.messageSource = messageSource;
+	}
+
+	/**
+	 * Error type 401 <br/>
+	 * Handle Authorization error
+	 * 
+	 * @param ex
+	 * @param request
+	 * @return
+	 */
+	@ExceptionHandler({ AuthenticationException.class, BadCredentialsException.class })
+	public final ResponseEntity<ApiError> handleAuthenticationException(AuthenticationException ex, WebRequest request,
+			Locale locale) {
+		String errorMessage = messageSource.getMessage(ex.getMessage(), null, ex.getMessage(), locale);
+
+		// @formatter:off
+		ApiError errorDetails = ApiError.builder()
+		    		.status(HttpStatus.UNAUTHORIZED.value())
+		    		.error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+					.message(errorMessage)
+					.trace(request.getDescription(false))
+					.build();
+		    // @formatter:on
+		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
 	}
 
 	/**

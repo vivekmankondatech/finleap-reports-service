@@ -40,12 +40,9 @@ import com.finleap.app.user.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-	Optional<User> findByEmailId(String emailId);
-
-	Optional<String> getPasswordByEmailIdIgnoreCase(String username);
-
 	Optional<User> findOneByEmailIdIgnoreCase(String username);
 
 	List<User> findByIdNotIn(List<UUID> userIds);
+
 
 }

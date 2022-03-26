@@ -6,6 +6,7 @@ package com.finleap.app.report.service.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -94,7 +95,12 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 
 		log.info(CommonConstants.LOG.EXIT, "getExistingAssigneeIds", this.getClass().getName());
 
-		return incidentReportRepository.findAllAssigneeId();
+		// @formatter:off
+		return incidentReportRepository.findAll()
+				.stream()
+				.map(user -> user.getAssignee().getId())
+				.collect(Collectors.toList());
+		// @formatter:on
 	}
 
 }

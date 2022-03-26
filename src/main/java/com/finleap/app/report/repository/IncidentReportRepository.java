@@ -49,6 +49,4 @@ public interface IncidentReportRepository extends JpaRepository<IncidentReport, 
 
 	IncidentReport findByAssigneeAndStatus(User assignee, IncidentReportStatus status);
 
-	List<UUID> findAllAssigneeId();
-
 }

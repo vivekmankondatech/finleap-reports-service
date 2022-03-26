@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		// @formatter: on
+		// @formatter:off
 		http.httpBasic().and()
 				// Disable frame options in the header
 				.headers().frameOptions().disable().and().authorizeRequests()
@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(AUTH_WHITELIST).permitAll()
 				// All other request needs authentication
 				.anyRequest().authenticated().and().csrf().disable();
-		// @formatter: on
+		// @formatter:on
 
 	}
 

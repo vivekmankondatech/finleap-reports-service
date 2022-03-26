@@ -51,6 +51,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
+	private static final String GET_LOGGED_IN_USER = "getLoggedInUser";
+
 	private static final String LOAD_USER_BY_USERNAME = "loadUserByUsername";
 
 	@Autowired
@@ -80,14 +82,20 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 	@Override
 	public boolean validateUserCredentials(String username, String credentials) {
 
-		Optional<String> password = userRepository.getPasswordByEmailIdIgnoreCase(username);
+		log.info(CommonConstants.LOG.ENTRY, "validateUserCredentials", this.getClass().getName());
 
-		return password.isPresent() ? passwordEncoder.matches(credentials, password.get()) : false;
+		Optional<User> user = userRepository.findOneByEmailIdIgnoreCase(username);
+
+		log.info(CommonConstants.LOG.EXIT, "validateUserCredentials", this.getClass().getName());
+
+		return user.isPresent() && passwordEncoder.matches(credentials, user.get().getPassword());
 
 	}
 
 	@Override
 	public User getLoggedInUser() {
+
+		log.info(CommonConstants.LOG.ENTRY, GET_LOGGED_IN_USER, this.getClass().getName());
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -97,9 +105,12 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 			User user = (User) authentication.getPrincipal();
 
 			if (Objects.nonNull(user)) {
+				log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER, this.getClass().getName());
 				return userRepository.findById(user.getId()).orElseThrow();
 			}
 		}
+		log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER, this.getClass().getName());
+
 		return null;
 	}
 }

@@ -23,6 +23,7 @@ import com.finleap.app.common.entity.base.AuditableEntity;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -102,28 +103,30 @@ public class User extends AuditableEntity {
 	/*
 	 * Auth-related fields
 	 */
-	@Column(name = "enabled", columnDefinition = "boolean NOT NULL DEFAULT false")
-	private boolean enabled;
+	@Column(name = "enabled", columnDefinition = "boolean NOT NULL DEFAULT true")
+	@Builder.Default
+	private boolean enabled = true;
 
 	@Column(name = "password_reset", columnDefinition = "boolean NOT NULL DEFAULT false")
 	private boolean passwordReset;
 
-	@Column(name = "account_expired")
+	@Column(name = "account_expired", columnDefinition = "boolean NOT NULL DEFAULT false")
 	private boolean accountExpired;
 
-	@Column(name = "account_locked")
+	@Column(name = "account_locked", columnDefinition = "boolean NOT NULL DEFAULT false")
 	private boolean accountLocked;
 
-	@Column(name = "credentials_expired")
+	@Column(name = "credentials_expired", columnDefinition = "boolean NOT NULL DEFAULT false")
 	private boolean credentialsExpired;
 
 	/**
-	 * @param b
+	 * @param user
 	 */
 	public User(User user) {
 
 		super(user.getCreatedBy(), user.getLastUpdatedBy());
 
+		this.id = user.id;
 		this.firstName = user.firstName;
 		this.middleName = user.middleName;
 		this.lastName = user.lastName;

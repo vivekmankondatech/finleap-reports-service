@@ -3,9 +3,9 @@
  */
 package com.finleap.app.auth.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import java.util.UUID;
 
-import com.finleap.app.user.entity.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Any License information can go here
@@ -35,11 +35,11 @@ import com.finleap.app.user.entity.User;
 public interface CustomUserDetailsService extends UserDetailsService {
 
 	/**
-	 * Gets the logged in user.
+	 * Gets the logged in user ID.
 	 *
-	 * @return the logged in user
+	 * @return the logged in user ID
 	 */
-	User getLoggedInUser();
+	UUID getLoggedInUserId();
 
 	/**
 	 * Validate user details

@@ -4,6 +4,7 @@
 package com.finleap.app.report.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -11,18 +12,24 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.finleap.app.common.exception.DataNotFoundException;
+import com.finleap.app.common.exception.InvalidArgumentException;
+import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.report.entity.IncidentReport;
 import com.finleap.app.report.mapper.IncidentReportMapper;
 import com.finleap.app.report.repository.IncidentReportRepository;
 import com.finleap.app.report.service.IncidentReportService;
 import com.finleap.app.report.web.dto.request.IncidentReportRequestDto;
+import com.finleap.app.report.web.dto.request.IncidentReportUpdateRequestDto;
 import com.finleap.app.report.web.dto.response.IncidentReportResponseDto;
 import com.finleap.app.user.entity.User;
 import com.finleap.app.user.service.UserService;
+import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,6 +108,151 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 				.map(user -> user.getAssignee().getId())
 				.collect(Collectors.toList());
 		// @formatter:on
+	}
+
+	@Override
+	public List<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable) {
+
+		log.info(CommonConstants.LOG.ENTRY, "getAllIncidentReports", this.getClass().getName());
+
+		List<IncidentReport> incidentReports = incidentReportRepository.findAll();
+
+		log.info(CommonConstants.LOG.EXIT, "getAllIncidentReports", this.getClass().getName());
+
+		return incidentReportMapper.toIncidentReportResponseDtos(incidentReports);
+	}
+
+	@Override
+	public IncidentReportResponseDto updateIncidentReport(UUID incidentReportId,
+			IncidentReportUpdateRequestDto incidentReportUpdateRequestDto) {
+
+		log.info(CommonConstants.LOG.ENTRY, "updateIncidentReport", this.getClass().getName());
+
+		IncidentReport incidentReport = fetchOrFailIncidentReportById(incidentReportId);
+
+		User user = userService.fetchOrFailLoggedInUser();
+
+		boolean isCreator = validatePermissionsToUpdateReport(incidentReport, user);
+
+		if (!isCreator) {
+			validateAndUpdateIncidentReportStatus(incidentReport, incidentReportUpdateRequestDto, isCreator);
+		} else {
+			validateAndUpdateIncidentReport(incidentReport, incidentReportUpdateRequestDto, isCreator);
+		}
+
+		incidentReport = incidentReportRepository.save(incidentReport);
+
+		log.info(CommonConstants.LOG.EXIT, "updateIncidentReport", this.getClass().getName());
+
+		return incidentReportMapper.toIncidentReportResponseDto(incidentReport);
+	}
+
+	private void validateAndUpdateIncidentReport(IncidentReport incidentReport,
+			IncidentReportUpdateRequestDto incidentReportUpdateRequestDto, final boolean isCreator) {
+
+		boolean isUpdated = false;
+
+		if (Objects.nonNull(incidentReportUpdateRequestDto.getAssigneeId()) && !Objects
+				.equals(incidentReportUpdateRequestDto.getAssigneeId(), incidentReport.getAssignee().getId())) {
+
+			incidentReport.setAssignee(userService.getUserById(incidentReportUpdateRequestDto.getAssigneeId())
+					.orElseThrow(DataNotFoundException::new));
+
+			isUpdated = true;
+		}
+
+		if (Objects.nonNull(incidentReportUpdateRequestDto.getTitle())
+				&& !Objects.equals(incidentReportUpdateRequestDto.getTitle(), incidentReport.getTitle())) {
+
+			incidentReport.setTitle(incidentReportUpdateRequestDto.getTitle());
+
+			isUpdated = true;
+		}
+
+		if (Objects.nonNull(incidentReportUpdateRequestDto.getStatus())
+				&& !Objects.equals(incidentReportUpdateRequestDto.getStatus(), incidentReport.getStatus())) {
+
+			incidentReport.setStatus(incidentReportUpdateRequestDto.getStatus());
+
+			isUpdated = true;
+		}
+
+		if (!isUpdated) {
+			throw new InvalidArgumentException(
+					"The Update Request Data for the Incident Report must not be blank or same as the existing data.");
+		}
+
+	}
+
+	private void validateAndUpdateIncidentReportStatus(IncidentReport incidentReport,
+			IncidentReportUpdateRequestDto incidentReportUpdateRequestDto, final boolean isCreator) {
+
+		if (Objects.nonNull(incidentReportUpdateRequestDto.getAssigneeId())
+				|| Objects.nonNull(incidentReportUpdateRequestDto.getTitle())) {
+
+			throw new InvalidArgumentException("The assignee can update the Status only and no other field.");
+		}
+
+		if (Objects.isNull(incidentReportUpdateRequestDto.getStatus())) {
+
+			throw new InvalidArgumentException("The assignee must provide a valid status.");
+
+		}
+
+		if (Objects.equals(incidentReportUpdateRequestDto.getStatus(), incidentReport.getStatus())) {
+
+			throw new InvalidArgumentException("The status has already been updated with the current value.");
+
+		}
+
+		incidentReport.setStatus(incidentReportUpdateRequestDto.getStatus());
+
+	}
+
+	/**
+	 * @param incidentReport
+	 * @param user
+	 */
+	private boolean validatePermissionsToUpdateReport(IncidentReport incidentReport, User user) {
+		boolean isCreator;
+		if (Objects.equals(incidentReport.getCreatedBy(), user.getId())) {
+			isCreator = false;
+		} else if (Objects.equals(incidentReport.getAssignee().getId(), user.getId())) {
+			isCreator = true;
+		} else {
+			throw new AccessDeniedException("You do not have sufficient permissions to update Incident Report.");
+		}
+		return isCreator;
+	}
+
+	@Override
+	public BaseResponseDto deleteIncidentReport(UUID incidentReportId, DeleteRequestDto deleteRequestDto) {
+
+		log.info(CommonConstants.LOG.ENTRY, "deleteIncidentReport", this.getClass().getName());
+
+		IncidentReport incidentReport = fetchOrFailIncidentReportById(incidentReportId);
+
+		incidentReport.setComments(deleteRequestDto.getReason());
+		incidentReport = incidentReportRepository.save(incidentReport);
+
+		incidentReportRepository.delete(incidentReport);
+
+		log.info(CommonConstants.LOG.EXIT, "deleteIncidentReport", this.getClass().getName());
+		return BaseResponseDto.builder().build();
+	}
+
+	/**
+	 * 
+	 * @param incidentReportId
+	 * @return
+	 */
+	private IncidentReport fetchOrFailIncidentReportById(UUID incidentReportId) {
+
+		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailHikerById", this.getClass().getName());
+
+		log.info(CommonConstants.LOG.EXIT, "fetchOrFailHikerById", this.getClass().getName());
+
+		return incidentReportRepository.findById(incidentReportId).orElseThrow(DataNotFoundException::new);
 	}
 
 }

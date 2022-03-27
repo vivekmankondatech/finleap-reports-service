@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.user.entity.User;
-import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
+import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
@@ -63,7 +63,7 @@ public interface UserService {
 	 * @param userDeleteRequestDto
 	 * @return
 	 */
-	BaseResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto);
+	BaseResponseDto deleteUser(DeleteRequestDto userDeleteRequestDto);
 
 	/**
 	 * Get Logged-in User Details
@@ -72,6 +72,25 @@ public interface UserService {
 	 */
 	UserResponseDto getUser();
 
+	/**
+	 * Get New Assignee By UserIds Not In
+	 * 
+	 * @param userIds
+	 * @return
+	 */
 	Optional<User> getNewAssigneeByUserIdsNotIn(List<UUID> userIds);
+
+	/**
+	 * 
+	 * @return
+	 */
+	Optional<User> getUserById(UUID userId);
+
+	/**
+	 * Fetch or Fail Logged-in User
+	 * 
+	 * @return
+	 */
+	User fetchOrFailLoggedInUser();
 
 }

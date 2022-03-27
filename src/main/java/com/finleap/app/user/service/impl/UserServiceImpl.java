@@ -27,7 +27,7 @@ import com.finleap.app.user.mapper.UserMapper;
 import com.finleap.app.user.repository.UserRepository;
 import com.finleap.app.user.repository.UserRoleRepository;
 import com.finleap.app.user.service.UserService;
-import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
+import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public BaseResponseDto deleteUser(UserDeleteRequestDto userDeleteRequestDto) {
+	public BaseResponseDto deleteUser(DeleteRequestDto userDeleteRequestDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "deleteUser", this.getClass().getName());
 
@@ -174,18 +174,16 @@ public class UserServiceImpl implements UserService {
 		return BaseResponseDto.builder().build();
 	}
 
-	/**
-	 * Fetch or Fail Logged-in User
-	 * 
-	 * @return
-	 */
-	private User fetchOrFailLoggedInUser() {
+	@Override
+	public User fetchOrFailLoggedInUser() {
 
 		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailLoggedInUser", this.getClass().getName());
 
+		UUID userId = customUserDetailsService.getLoggedInUserId();
+
 		log.info(CommonConstants.LOG.EXIT, "fetchOrFailLoggedInUser", this.getClass().getName());
 
-		return customUserDetailsService.getLoggedInUser();
+		return userRepository.findById(userId).orElseThrow(DataNotFoundException::new);
 	}
 
 	@Override
@@ -201,9 +199,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<User> getNewAssigneeByUserIdsNotIn(List<UUID> userIds) {
 
+		log.info(CommonConstants.LOG.ENTRY, "getNewAssigneeByUserIdsNotIn", this.getClass().getName());
+
 		List<User> users = userRepository.findByIdNotIn(userIds);
 
+		log.info(CommonConstants.LOG.EXIT, "getNewAssigneeByUserIdsNotIn", this.getClass().getName());
+
 		return CollectionUtils.isEmpty(users) ? Optional.empty() : Optional.of(users.get(0));
+	}
+
+	@Override
+	public Optional<User> getUserById(UUID userId) {
+
+		log.info(CommonConstants.LOG.ENTRY, "getUserById", this.getClass().getName());
+
+		log.info(CommonConstants.LOG.EXIT, "getUserById", this.getClass().getName());
+
+		return userRepository.findById(userId);
 	}
 
 }

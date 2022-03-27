@@ -83,4 +83,7 @@ public class IncidentReport extends AuditableEntity {
 	@NotNull
 	private User assignee;
 
+	@Column(name = "comments")
+	private String comments;
+
 }

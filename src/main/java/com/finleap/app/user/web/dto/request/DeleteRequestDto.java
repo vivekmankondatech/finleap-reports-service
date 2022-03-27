@@ -41,7 +41,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserDeleteRequestDto {
+public class DeleteRequestDto {
 
 	@NotEmpty(message = "Reason must be provided.")
 	private String reason;

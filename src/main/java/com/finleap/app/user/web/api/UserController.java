@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.service.UserService;
-import com.finleap.app.user.web.dto.request.UserDeleteRequestDto;
+import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
@@ -129,7 +129,7 @@ public class UserController {
 	// @formatter:on
 	@DeleteMapping()
 	public ResponseEntity<BaseResponseDto> deleteUser(
-			@Valid @RequestBody(required = true) UserDeleteRequestDto userDeleteRequestDto) {
+			@Valid @RequestBody(required = true) DeleteRequestDto userDeleteRequestDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "deleteUser", this.getClass().getName());
 

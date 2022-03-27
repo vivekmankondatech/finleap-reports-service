@@ -5,6 +5,7 @@ package com.finleap.app.auth.service.impl;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -51,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
-	private static final String GET_LOGGED_IN_USER = "getLoggedInUser";
+	private static final String GET_LOGGED_IN_USER_ID = "getLoggedInUserId";
 
 	private static final String LOAD_USER_BY_USERNAME = "loadUserByUsername";
 
@@ -93,9 +94,9 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 	}
 
 	@Override
-	public User getLoggedInUser() {
+	public UUID getLoggedInUserId() {
 
-		log.info(CommonConstants.LOG.ENTRY, GET_LOGGED_IN_USER, this.getClass().getName());
+		log.info(CommonConstants.LOG.ENTRY, GET_LOGGED_IN_USER_ID, this.getClass().getName());
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -105,11 +106,11 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 			User user = (User) authentication.getPrincipal();
 
 			if (Objects.nonNull(user)) {
-				log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER, this.getClass().getName());
-				return userRepository.findById(user.getId()).orElseThrow();
+				log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER_ID, this.getClass().getName());
+				return user.getId();
 			}
 		}
-		log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER, this.getClass().getName());
+		log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER_ID, this.getClass().getName());
 
 		return null;
 	}

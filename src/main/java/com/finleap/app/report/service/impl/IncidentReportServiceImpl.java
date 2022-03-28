@@ -3,6 +3,7 @@
  */
 package com.finleap.app.report.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.finleap.app.common.exception.DataNotFoundException;
 import com.finleap.app.common.exception.InvalidArgumentException;
@@ -72,6 +74,19 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * @param incidentReportRepository
+	 * @param incidentReportMapper
+	 * @param userService
+	 */
+	public IncidentReportServiceImpl(IncidentReportRepository incidentReportRepository,
+			IncidentReportMapper incidentReportMapper, UserService userService) {
+		super();
+		this.incidentReportRepository = incidentReportRepository;
+		this.incidentReportMapper = incidentReportMapper;
+		this.userService = userService;
+	}
+
 	@Override
 	@Transactional
 	public IncidentReportResponseDto createIncidentReport(IncidentReportRequestDto incidentReportRequestDto) {
@@ -101,14 +116,17 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 
 		log.info(CommonConstants.LOG.ENTRY, "getExistingAssigneeIds", this.getClass().getName());
 
-		log.info(CommonConstants.LOG.EXIT, "getExistingAssigneeIds", this.getClass().getName());
+		List<IncidentReport> incidentReports = incidentReportRepository.findAll();
 
 		// @formatter:off
-		return incidentReportRepository.findAll()
-				.stream()
+		List<UUID> assigneeIds = incidentReports.stream()
 				.map(user -> user.getAssignee().getId())
 				.collect(Collectors.toList());
 		// @formatter:on
+
+		log.info(CommonConstants.LOG.EXIT, "getExistingAssigneeIds", this.getClass().getName());
+
+		return CollectionUtils.isEmpty(assigneeIds) ? new ArrayList<>() : assigneeIds;
 	}
 
 	@Override
@@ -217,9 +235,9 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	private boolean validatePermissionsToUpdateReport(IncidentReport incidentReport, FinleapUser user) {
 		boolean isCreator;
 		if (Objects.equals(incidentReport.getCreatedBy(), user.getId())) {
-			isCreator = false;
-		} else if (Objects.equals(incidentReport.getAssignee().getId(), user.getId())) {
 			isCreator = true;
+		} else if (Objects.equals(incidentReport.getAssignee().getId(), user.getId())) {
+			isCreator = false;
 		} else {
 			throw new AccessDeniedException("You do not have sufficient permissions to update Incident Report.");
 		}

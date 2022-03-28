@@ -74,6 +74,23 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	
+
+	/**
+	 * @param userRepository
+	 * @param userRoleRepository
+	 * @param customUserDetailsService
+	 * @param userMapper
+	 */
+	public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository,
+			CustomUserDetailsService customUserDetailsService, UserMapper userMapper) {
+		super();
+		this.userRepository = userRepository;
+		this.userRoleRepository = userRoleRepository;
+		this.customUserDetailsService = customUserDetailsService;
+		this.userMapper = userMapper;
+	}
 
 	@Override
 	@Transactional

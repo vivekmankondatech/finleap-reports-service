@@ -198,7 +198,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		final IncidentReportUpdateRequestDto incidentReportUpdateRequestDto = TestDataProvider
 				.getIncidentReportUpdateRequestDto();
 
-		final UUID incidentReportId = TestDataProvider.getRandomItineraryId();
+		final UUID incidentReportId = TestDataProvider.getRandomUUID();
 
 		final IncidentReportResponseDto incidentReportResponseDto = TestDataProvider.getIncidentReportResponseDto();
 
@@ -242,7 +242,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// given
 		final DeleteRequestDto deleteRequestDto = TestDataProvider.getDeleteRequestDto();
 
-		final UUID incidentReportId = TestDataProvider.getRandomItineraryId();
+		final UUID incidentReportId = TestDataProvider.getRandomUUID();
 
 		final BaseResponseDto baseResponseDto = TestDataProvider.getBaseResponseDto();
 

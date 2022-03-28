@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.finleap.app.auth.config;
+package com.finleap.app.common.config;
 
 import javax.annotation.PostConstruct;
 

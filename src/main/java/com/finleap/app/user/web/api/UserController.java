@@ -57,7 +57,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("users")
 @Tag(name = "Users", description = "FinleapUser Service")
-@SecurityRequirement(name = "finleap-api")
 public class UserController {
 
 	@Autowired
@@ -90,7 +89,8 @@ public class UserController {
 	// @formatter:off
 	@Operation(summary = "Update FinleapUser", 
 			description = "Update logged-in FinleapUser", 
-			tags = {"Users" })
+			tags = {"Users" },
+			security = @SecurityRequirement(name = "finleap-auth"))
 	// @formatter:on
 	@PutMapping()
 	public ResponseEntity<UserResponseDto> updateUser(
@@ -108,7 +108,8 @@ public class UserController {
 	// @formatter:off
 	@Operation(summary = "Get FinleapUser", 
 			description = "Get logged-in FinleapUser", 
-			tags = {"Users" })
+			tags = {"Users" },
+			security = @SecurityRequirement(name = "finleap-auth"))
 	// @formatter:on
 	@GetMapping("/me")
 	public ResponseEntity<UserResponseDto> getUser() {
@@ -125,7 +126,8 @@ public class UserController {
 	// @formatter:off
 	@Operation(summary = "Delete FinleapUser", 
 			description = "Delete logged-in FinleapUser", 
-			tags = {"Users" })
+			tags = {"Users" },
+			security = @SecurityRequirement(name = "finleap-auth"))
 	// @formatter:on
 	@DeleteMapping()
 	public ResponseEntity<BaseResponseDto> deleteUser(

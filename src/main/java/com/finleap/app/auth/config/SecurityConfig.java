@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -53,13 +54,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		// @formatter:off
-		http.httpBasic().and()
-				// Disable frame options in the header
-				.headers().frameOptions().disable().and().authorizeRequests()
-				// Disable security for the following url's
-				.antMatchers(AUTH_WHITELIST).permitAll()
-				// All other request needs authentication
-				.anyRequest().authenticated().and().csrf().disable();
+		http.httpBasic()
+		.and()
+		.formLogin().permitAll()
+		.and()
+		.logout().permitAll()
+		.and()
+		.headers().frameOptions().disable()	// Disable frame options in the header
+		.and()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and()
+		.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll() // Disable security for the following url's
+		.anyRequest().authenticated() // All other request needs authentication
+		.and()
+		.csrf().disable();
 		// @formatter:on
 
 	}

@@ -1,7 +1,17 @@
 /**
  * 
  */
-package com.finleap.app.user.web.dto.request;
+package com.finleap.app.user.web.dto.response;
+
+import java.util.UUID;
+
+import com.finleap.app.user.web.dto.request.BaseUserRequestDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Any License information can go here
@@ -9,7 +19,7 @@ package com.finleap.app.user.web.dto.request;
 
 /**
  * 
- * com.finleap.app.user.web.dto.request | finleap-reports-service
+ * com.finleap.app.user.web.dto.response | finleap-reports-service
  * -------------------------------------------------------------------------
  * 
  *
@@ -28,6 +38,12 @@ package com.finleap.app.user.web.dto.request;
  * 
  * </pre>
  */
-public class UserRequestDto {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class BaseUserResponseDto extends BaseUserRequestDto {
 
+	private UUID id;
 }

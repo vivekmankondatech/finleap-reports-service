@@ -3,6 +3,11 @@
  */
 package com.finleap.app.user.web.dto.response;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 /**
  * Any License information can go here
  */
@@ -28,6 +33,11 @@ package com.finleap.app.user.web.dto.response;
  * 
  * </pre>
  */
-public class UserResponseDto {
+@Getter
+@Setter
+//@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class UserResponseDto extends BaseUserResponseDto {
 
 }

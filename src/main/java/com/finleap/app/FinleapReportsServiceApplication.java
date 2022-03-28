@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * Any License information can go here
  */
- 
+
 /**
  * 
  * com.finleap.app | finleap-reports-service

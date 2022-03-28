@@ -16,10 +16,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Where;
 
-import com.finleap.app.common.entity.base.FileEntity;
+import com.finleap.app.common.entity.base.AuditableEntity;
 import com.finleap.app.report.converter.IncidentReportStatusConverter;
 import com.finleap.app.report.entity.enums.IncidentReportStatus;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import lombok.AllArgsConstructor;
@@ -64,7 +64,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class IncidentReport extends FileEntity {
+public class IncidentReport extends AuditableEntity {
 
 	/**
 	 * 
@@ -74,13 +74,16 @@ public class IncidentReport extends FileEntity {
 	@Column(name = "title", nullable = false)
 	private String title;
 
-	@Column(name = "tour_type", columnDefinition = "bigint")
+	@Column(name = "status", columnDefinition = "bigint")
 	@Convert(converter = IncidentReportStatusConverter.class)
 	private IncidentReportStatus status;
 
 	@ManyToOne
 	@JoinColumn(name = "assignee", foreignKey = @ForeignKey(name = "incident_reports_users_fk"))
 	@NotNull
-	private User assignee;
+	private FinleapUser assignee;
+
+	@Column(name = "comments")
+	private String comments;
 
 }

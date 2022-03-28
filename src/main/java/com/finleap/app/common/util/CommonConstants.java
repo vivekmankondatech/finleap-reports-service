@@ -48,6 +48,9 @@ public interface CommonConstants {
 
 	/* Generic constants */
 	public interface Generic {
+
+		String ROLE_DELIMITER = "ROLE_";
+
 		public String SLASH = "/";
 		public String SPACE = " ";
 		public String COMMA = ",";
@@ -68,4 +71,5 @@ public interface CommonConstants {
 
 		public String FILENAME_TEMPLATE = "%s.%s";
 	}
+
 }

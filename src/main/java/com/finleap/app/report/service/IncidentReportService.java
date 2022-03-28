@@ -3,8 +3,16 @@
  */
 package com.finleap.app.report.service;
 
+import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.report.web.dto.request.IncidentReportRequestDto;
+import com.finleap.app.report.web.dto.request.IncidentReportUpdateRequestDto;
 import com.finleap.app.report.web.dto.response.IncidentReportResponseDto;
+import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 
 /**
  * Any License information can go here
@@ -40,5 +48,33 @@ public interface IncidentReportService {
 	 * @return
 	 */
 	IncidentReportResponseDto createIncidentReport(IncidentReportRequestDto incidentReportRequestDto);
+
+	/**
+	 * List Existing Incident Reports
+	 * 
+	 * @param pageable
+	 * 
+	 * @return
+	 */
+	Page<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable);
+
+	/**
+	 * Update an existing incident report
+	 * 
+	 * @param incidentReportId
+	 * @param incidentReportUpdateRequestDto
+	 * @return
+	 */
+	IncidentReportResponseDto updateIncidentReport(UUID incidentReportId,
+			IncidentReportUpdateRequestDto incidentReportUpdateRequestDto);
+
+	/**
+	 * Delete an existing incident report
+	 * 
+	 * @param incidentReportId
+	 * @param userDeleteRequestDto
+	 * @return
+	 */
+	BaseResponseDto deleteIncidentReport(UUID incidentReportId, DeleteRequestDto userDeleteRequestDto);
 
 }

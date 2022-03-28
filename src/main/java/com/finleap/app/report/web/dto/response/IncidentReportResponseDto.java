@@ -3,6 +3,16 @@
  */
 package com.finleap.app.report.web.dto.response;
 
+import java.util.UUID;
+
+import com.finleap.app.report.entity.enums.IncidentReportStatus;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 /**
  * Any License information can go here
  */
@@ -28,6 +38,18 @@ package com.finleap.app.report.web.dto.response;
  * 
  * </pre>
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public class IncidentReportResponseDto {
 
+	private String title;
+
+	private IncidentReportStatus status;
+
+	private AssigneeResponseDto assignee;
+
+	private UUID id;
 }

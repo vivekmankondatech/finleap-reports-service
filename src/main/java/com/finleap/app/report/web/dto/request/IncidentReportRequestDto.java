@@ -3,6 +3,19 @@
  */
 package com.finleap.app.report.web.dto.request;
 
+import java.util.UUID;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.finleap.app.report.entity.enums.IncidentReportStatus;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 /**
  * Any License information can go here
  */
@@ -28,6 +41,20 @@ package com.finleap.app.report.web.dto.request;
  * 
  * </pre>
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public class IncidentReportRequestDto {
+
+	@NotEmpty(message = "Title must be provided.")
+	private String title;
+
+	@NotNull(message = "Status must be provided.")
+	private IncidentReportStatus status;
+
+	@NotNull(message = "AssigneeID must be provided.")
+	private UUID assigneeId;
 
 }

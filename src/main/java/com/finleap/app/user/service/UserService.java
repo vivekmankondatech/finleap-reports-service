@@ -3,7 +3,15 @@
  */
 package com.finleap.app.user.service;
 
-import com.finleap.app.user.web.dto.request.UserRequestDto;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import com.finleap.app.common.response.dto.BaseResponseDto;
+import com.finleap.app.user.entity.FinleapUser;
+import com.finleap.app.user.web.dto.request.DeleteRequestDto;
+import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
+import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
 /**
@@ -34,11 +42,55 @@ import com.finleap.app.user.web.dto.response.UserResponseDto;
 public interface UserService {
 
 	/**
-	 * Create User
+	 * Create FinleapUser
 	 * 
-	 * @param userRequestDto
+	 * @param userRequestWithPasswordDto
 	 * @return
 	 */
-	UserResponseDto createUser(UserRequestDto userRequestDto);
+	UserResponseDto createUser(UserRequestWithPasswordDto userRequestWithPasswordDto);
+
+	/**
+	 * Modify FinleapUser
+	 * 
+	 * @param userUpdateRequestDto
+	 * @return
+	 */
+	UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto);
+
+	/**
+	 * Delete FinleapUser
+	 * 
+	 * @param userDeleteRequestDto
+	 * @return
+	 */
+	BaseResponseDto deleteUser(DeleteRequestDto userDeleteRequestDto);
+
+	/**
+	 * Get Logged-in FinleapUser Details
+	 * 
+	 * @return
+	 */
+	UserResponseDto getUser();
+
+	/**
+	 * Get New Assignee By UserIds Not In
+	 * 
+	 * @param userIds
+	 * @return
+	 */
+	Optional<FinleapUser> getNewAssigneeByUserIdsNotIn(List<UUID> userIds);
+
+	/**
+	 * 
+	 * @return
+	 */
+	Optional<FinleapUser> getUserById(UUID userId);
+
+	/**
+	 * Fetch or Fail Logged-in FinleapUser
+	 * 
+	 * @return
+	 */
+	FinleapUser fetchOrFailLoggedInUser();
 
 }

@@ -3,9 +3,9 @@
  */
 package com.finleap.app.report.service;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.finleap.app.common.response.dto.BaseResponseDto;
@@ -56,7 +56,7 @@ public interface IncidentReportService {
 	 * 
 	 * @return
 	 */
-	List<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable);
+	Page<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable);
 
 	/**
 	 * Update an existing incident report

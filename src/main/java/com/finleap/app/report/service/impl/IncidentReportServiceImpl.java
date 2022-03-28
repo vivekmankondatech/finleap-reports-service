@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ import com.finleap.app.report.service.IncidentReportService;
 import com.finleap.app.report.web.dto.request.IncidentReportRequestDto;
 import com.finleap.app.report.web.dto.request.IncidentReportUpdateRequestDto;
 import com.finleap.app.report.web.dto.response.IncidentReportResponseDto;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 
@@ -81,7 +82,7 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 
 		List<UUID> userIds = getExistingAssigneeIds();
 
-		Optional<User> newAssignee = userService.getNewAssigneeByUserIdsNotIn(userIds);
+		Optional<FinleapUser> newAssignee = userService.getNewAssigneeByUserIdsNotIn(userIds);
 
 		incidentReport.setAssignee(newAssignee.orElseThrow(DataNotFoundException::new));
 
@@ -111,15 +112,15 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	}
 
 	@Override
-	public List<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable) {
+	public Page<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable) {
 
 		log.info(CommonConstants.LOG.ENTRY, "getAllIncidentReports", this.getClass().getName());
 
-		List<IncidentReport> incidentReports = incidentReportRepository.findAll();
+		Page<IncidentReport> incidentReports = incidentReportRepository.findAll(pageable);
 
 		log.info(CommonConstants.LOG.EXIT, "getAllIncidentReports", this.getClass().getName());
 
-		return incidentReportMapper.toIncidentReportResponseDtos(incidentReports);
+		return incidentReportMapper.toPagedIncidentReportResponseDtos(incidentReports);
 	}
 
 	@Override
@@ -130,7 +131,7 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 
 		IncidentReport incidentReport = fetchOrFailIncidentReportById(incidentReportId);
 
-		User user = userService.fetchOrFailLoggedInUser();
+		FinleapUser user = userService.fetchOrFailLoggedInUser();
 
 		boolean isCreator = validatePermissionsToUpdateReport(incidentReport, user);
 
@@ -213,7 +214,7 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	 * @param incidentReport
 	 * @param user
 	 */
-	private boolean validatePermissionsToUpdateReport(IncidentReport incidentReport, User user) {
+	private boolean validatePermissionsToUpdateReport(IncidentReport incidentReport, FinleapUser user) {
 		boolean isCreator;
 		if (Objects.equals(incidentReport.getCreatedBy(), user.getId())) {
 			isCreator = false;

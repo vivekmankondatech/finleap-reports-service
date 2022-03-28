@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.report.web.dto.response.AssigneeResponseDto;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
 
@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserMapper {
 
-	public UserResponseDto toUserResponseDto(User user) {
+	public UserResponseDto toUserResponseDto(FinleapUser user) {
 
 		log.info(CommonConstants.LOG.ENTRY, "toUserResponseDto", this.getClass().getName());
 
@@ -65,7 +65,7 @@ public class UserMapper {
 		// @formatter:on
 	}
 
-	public List<UserResponseDto> toUserResponseDtos(Collection<User> users) {
+	public List<UserResponseDto> toUserResponseDtos(Collection<FinleapUser> users) {
 
 		log.info(CommonConstants.LOG.ENTRY, "toUserResponseDtos", this.getClass().getName());
 
@@ -78,14 +78,14 @@ public class UserMapper {
 		// @formatter:on
 	}
 
-	public User toUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
+	public FinleapUser toUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "toUser", this.getClass().getName());
 
 		log.info(CommonConstants.LOG.EXIT, "toUser", this.getClass().getName());
 
 		// @formatter:off
-		return User.builder()
+		return FinleapUser.builder()
 				.age(userRequestWithPasswordDto.getAge())
 				.emailId(userRequestWithPasswordDto.getEmailId())
 				.firstName(userRequestWithPasswordDto.getFirstName())
@@ -97,7 +97,7 @@ public class UserMapper {
 		// @formatter:on		
 	}
 
-	public AssigneeResponseDto toAssignee(User assignee) {
+	public AssigneeResponseDto toAssignee(FinleapUser assignee) {
 
 		log.info(CommonConstants.LOG.ENTRY, "toAssignee", this.getClass().getName());
 

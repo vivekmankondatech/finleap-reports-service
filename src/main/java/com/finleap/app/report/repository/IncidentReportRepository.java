@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.finleap.app.report.entity.IncidentReport;
 import com.finleap.app.report.entity.enums.IncidentReportStatus;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 
 /**
  * Any License information can go here
@@ -41,12 +41,12 @@ import com.finleap.app.user.entity.User;
 @Repository
 public interface IncidentReportRepository extends JpaRepository<IncidentReport, UUID> {
 
-	List<IncidentReport> findByAssignee(User assignee);
+	List<IncidentReport> findByAssignee(FinleapUser assignee);
 
 	List<IncidentReport> findByStatus(IncidentReportStatus status);
 
 	List<IncidentReport> findByTitle(String title);
 
-	IncidentReport findByAssigneeAndStatus(User assignee, IncidentReportStatus status);
+	IncidentReport findByAssigneeAndStatus(FinleapUser assignee, IncidentReportStatus status);
 
 }

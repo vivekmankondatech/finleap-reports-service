@@ -19,7 +19,7 @@ import org.hibernate.annotations.Where;
 import com.finleap.app.common.entity.base.AuditableEntity;
 import com.finleap.app.report.converter.IncidentReportStatusConverter;
 import com.finleap.app.report.entity.enums.IncidentReportStatus;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import lombok.AllArgsConstructor;
@@ -81,7 +81,7 @@ public class IncidentReport extends AuditableEntity {
 	@ManyToOne
 	@JoinColumn(name = "assignee", foreignKey = @ForeignKey(name = "incident_reports_users_fk"))
 	@NotNull
-	private User assignee;
+	private FinleapUser assignee;
 
 	@Column(name = "comments")
 	private String comments;

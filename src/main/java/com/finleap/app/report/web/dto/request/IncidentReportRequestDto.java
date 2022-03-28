@@ -56,4 +56,5 @@ public class IncidentReportRequestDto {
 
 	@NotNull(message = "AssigneeID must be provided.")
 	private UUID assigneeId;
+
 }

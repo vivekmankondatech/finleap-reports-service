@@ -65,7 +65,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class User extends AuditableEntity {
+public class FinleapUser extends AuditableEntity {
 
 	/**
 	 * 
@@ -122,7 +122,7 @@ public class User extends AuditableEntity {
 	/**
 	 * @param user
 	 */
-	public User(User user) {
+	public FinleapUser(FinleapUser user) {
 
 		super(user.getCreatedBy(), user.getLastUpdatedBy());
 

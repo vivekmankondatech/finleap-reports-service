@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.finleap.app.auth.config.CustomUserDetails;
 import com.finleap.app.auth.service.CustomUserDetailsService;
 import com.finleap.app.common.util.CommonConstants;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +67,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
 		log.info(CommonConstants.LOG.ENTRY, LOAD_USER_BY_USERNAME, this.getClass().getName());
 
-		Optional<User> user = userRepository.findOneByEmailIdIgnoreCase(username);
+		Optional<FinleapUser> user = userRepository.findOneByEmailIdIgnoreCase(username);
 
 		if (user.isPresent()) {
 
@@ -85,7 +85,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
 		log.info(CommonConstants.LOG.ENTRY, "validateUserCredentials", this.getClass().getName());
 
-		Optional<User> user = userRepository.findOneByEmailIdIgnoreCase(username);
+		Optional<FinleapUser> user = userRepository.findOneByEmailIdIgnoreCase(username);
 
 		log.info(CommonConstants.LOG.EXIT, "validateUserCredentials", this.getClass().getName());
 
@@ -103,7 +103,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 		if (Objects.nonNull(authentication)) {
 
 			// Get auth details from the authentication object
-			User user = (User) authentication.getPrincipal();
+			FinleapUser user = (FinleapUser) authentication.getPrincipal();
 
 			if (Objects.nonNull(user)) {
 				log.info(CommonConstants.LOG.EXIT, GET_LOGGED_IN_USER_ID, this.getClass().getName());

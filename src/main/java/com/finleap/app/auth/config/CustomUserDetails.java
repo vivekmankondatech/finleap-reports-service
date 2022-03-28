@@ -9,10 +9,11 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.finleap.app.common.util.CommonConstants;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 
 /**
  * Any License information can go here
@@ -39,7 +40,7 @@ import com.finleap.app.user.entity.User;
  * 
  * </pre>
  */
-public class CustomUserDetails extends User implements UserDetails {
+public class CustomUserDetails extends FinleapUser implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,8 +48,13 @@ public class CustomUserDetails extends User implements UserDetails {
 	 * @param user
 	 * 
 	 */
-	public CustomUserDetails(User user) {
+	public CustomUserDetails(FinleapUser user) {
 		super(user);
+	}
+
+	public CustomUserDetails(User user) {
+		super();
+		this.setEmailId(user.getUsername());
 	}
 
 	@Override
@@ -90,7 +96,7 @@ public class CustomUserDetails extends User implements UserDetails {
 	}
 
 	/**
-	 * Get the username from the User class
+	 * Get the username from the FinleapUser class
 	 */
 	@Override
 	public String getUsername() {

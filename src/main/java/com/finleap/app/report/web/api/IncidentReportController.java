@@ -3,12 +3,12 @@
  */
 package com.finleap.app.report.web.api;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -97,11 +97,11 @@ public class IncidentReportController {
 			)
 	// @formatter:on
 	@GetMapping()
-	public ResponseEntity<List<IncidentReportResponseDto>> getAllIncidentReports(Pageable pageable) {
+	public ResponseEntity<Page<IncidentReportResponseDto>> getAllIncidentReports(Pageable pageable) {
 
 		log.info(CommonConstants.LOG.ENTRY, "getAllIncidentReports", this.getClass().getName());
 
-		List<IncidentReportResponseDto> incidentReportResponseDtos = incidentReportService
+		Page<IncidentReportResponseDto> incidentReportResponseDtos = incidentReportService
 				.getAllIncidentReports(pageable);
 
 		log.info(CommonConstants.LOG.EXIT, "getAllIncidentReports", this.getClass().getName());
@@ -141,12 +141,12 @@ public class IncidentReportController {
 	@DeleteMapping("{incidentReportId}")
 	public ResponseEntity<BaseResponseDto> deleteIncidentReport(
 			@Valid @PathVariable("incidentReportId") UUID incidentReportId,
-			@Valid @RequestBody(required = true) DeleteRequestDto userDeleteRequestDto) {
+			@Valid @RequestBody(required = true) DeleteRequestDto deleteRequestDto) {
 
 		log.info(CommonConstants.LOG.ENTRY, "deleteIncidentReport", this.getClass().getName());
 
 		BaseResponseDto baseResponseDto = incidentReportService.deleteIncidentReport(incidentReportId,
-				userDeleteRequestDto);
+				deleteRequestDto);
 
 		log.info(CommonConstants.LOG.EXIT, "deleteIncidentReport", this.getClass().getName());
 

@@ -56,7 +56,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("users")
-@Tag(name = "Users", description = "User Service")
+@Tag(name = "Users", description = "FinleapUser Service")
 @SecurityRequirement(name = "finleap-api")
 public class UserController {
 
@@ -70,8 +70,8 @@ public class UserController {
 	}
 
 	// @formatter:off
-	@Operation(summary = "Create User", 
-			description = "Create User", 
+	@Operation(summary = "Create FinleapUser", 
+			description = "Create FinleapUser", 
 			tags = {"Users" })
 	// @formatter:on
 	@PostMapping("public/new")
@@ -88,8 +88,8 @@ public class UserController {
 	}
 
 	// @formatter:off
-	@Operation(summary = "Update User", 
-			description = "Update logged-in User", 
+	@Operation(summary = "Update FinleapUser", 
+			description = "Update logged-in FinleapUser", 
 			tags = {"Users" })
 	// @formatter:on
 	@PutMapping()
@@ -106,8 +106,8 @@ public class UserController {
 	}
 
 	// @formatter:off
-	@Operation(summary = "Get User", 
-			description = "Get logged-in User", 
+	@Operation(summary = "Get FinleapUser", 
+			description = "Get logged-in FinleapUser", 
 			tags = {"Users" })
 	// @formatter:on
 	@GetMapping("/me")
@@ -123,8 +123,8 @@ public class UserController {
 	}
 
 	// @formatter:off
-	@Operation(summary = "Delete User", 
-			description = "Delete logged-in User", 
+	@Operation(summary = "Delete FinleapUser", 
+			description = "Delete logged-in FinleapUser", 
 			tags = {"Users" })
 	// @formatter:on
 	@DeleteMapping()

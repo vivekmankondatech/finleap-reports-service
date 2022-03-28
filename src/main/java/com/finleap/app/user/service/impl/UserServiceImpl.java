@@ -20,7 +20,7 @@ import com.finleap.app.common.exception.DataNotFoundException;
 import com.finleap.app.common.exception.NotAcceptableException;
 import com.finleap.app.common.response.dto.BaseResponseDto;
 import com.finleap.app.common.util.CommonConstants;
-import com.finleap.app.user.entity.User;
+import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.entity.UserRole;
 import com.finleap.app.user.entity.enums.UserRoleType;
 import com.finleap.app.user.mapper.UserMapper;
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
 		log.info(CommonConstants.LOG.ENTRY, "createUser", this.getClass().getName());
 
-		User user = userMapper.toUser(userRequestWithPasswordDto);
+		FinleapUser user = userMapper.toUser(userRequestWithPasswordDto);
 
 		user.setUserRole(fetchOrFailUserRoleByType(UserRoleType.EMPLOYEE));
 
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
 		log.info(CommonConstants.LOG.ENTRY, "updateUser", this.getClass().getName());
 
-		User user = fetchOrFailLoggedInUser();
+		FinleapUser user = fetchOrFailLoggedInUser();
 
 		updateUserData(userUpdateRequestDto, user);
 
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 		return userMapper.toUserResponseDto(user);
 	}
 
-	private void updateUserData(UserUpdateRequestDto userUpdateRequestDto, User user) {
+	private void updateUserData(UserUpdateRequestDto userUpdateRequestDto, FinleapUser user) {
 
 		boolean isUpdated = false;
 
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
 
 		log.info(CommonConstants.LOG.ENTRY, "deleteUser", this.getClass().getName());
 
-		User user = fetchOrFailLoggedInUser();
+		FinleapUser user = fetchOrFailLoggedInUser();
 
 		user.setComments(userDeleteRequestDto.getReason());
 		user = userRepository.save(user);
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User fetchOrFailLoggedInUser() {
+	public FinleapUser fetchOrFailLoggedInUser() {
 
 		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailLoggedInUser", this.getClass().getName());
 
@@ -197,11 +197,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> getNewAssigneeByUserIdsNotIn(List<UUID> userIds) {
+	public Optional<FinleapUser> getNewAssigneeByUserIdsNotIn(List<UUID> userIds) {
 
 		log.info(CommonConstants.LOG.ENTRY, "getNewAssigneeByUserIdsNotIn", this.getClass().getName());
 
-		List<User> users = userRepository.findByIdNotIn(userIds);
+		List<FinleapUser> users = userRepository.findByIdNotIn(userIds);
 
 		log.info(CommonConstants.LOG.EXIT, "getNewAssigneeByUserIdsNotIn", this.getClass().getName());
 
@@ -209,7 +209,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> getUserById(UUID userId) {
+	public Optional<FinleapUser> getUserById(UUID userId) {
 
 		log.info(CommonConstants.LOG.ENTRY, "getUserById", this.getClass().getName());
 

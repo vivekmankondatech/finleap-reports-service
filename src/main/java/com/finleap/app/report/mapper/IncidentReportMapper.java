@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import com.finleap.app.common.util.CommonConstants;
@@ -91,5 +93,14 @@ public class IncidentReportMapper {
 				.collect(Collectors.toList());
 		// @formatter:on
 
+	}
+
+	public Page<IncidentReportResponseDto> toPagedIncidentReportResponseDtos(Page<IncidentReport> incidentReports) {
+
+		log.info(CommonConstants.LOG.ENTRY, "toPagedIncidentReportResponseDtos", this.getClass().getName());
+		log.info(CommonConstants.LOG.EXIT, "toPagedIncidentReportResponseDtos", this.getClass().getName());
+
+		return new PageImpl<>(toIncidentReportResponseDtos(incidentReports.getContent()), incidentReports.getPageable(),
+				incidentReports.getTotalElements());
 	}
 }

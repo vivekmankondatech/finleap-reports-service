@@ -3,11 +3,10 @@
  */
 package com.finleap.app.common.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,31 +43,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JsonHelperUtil {
 
+	@Autowired
+	private ObjectMapper mapper;
+
 	private JsonHelperUtil() {
 		throw new IllegalStateException("Utility class cannot be instantiated.");
-	}
-
-	/**
-	 * Get the instance of the mapper
-	 * 
-	 * @return
-	 */
-	public static ObjectMapper getMapper() {
-
-		log.info(CommonConstants.LOG.ENTRY, "getMapper", JsonHelperUtil.class.getSimpleName());
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.configure(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS, false);
-		mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
-		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		mapper.registerModule(new JavaTimeModule());
-		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-		log.info(CommonConstants.LOG.EXIT, "getMapper", JsonHelperUtil.class.getSimpleName());
-
-		return mapper;
 	}
 
 	/**
@@ -78,12 +57,11 @@ public class JsonHelperUtil {
 	 * @return
 	 * @throws JsonProcessingException
 	 */
-	public static String jsonSerialize(Object instance) throws JsonProcessingException {
-		ObjectMapper mapper = getMapper();
+	public String jsonSerialize(Object instance) throws JsonProcessingException {
 
-		// For representing time as timestamps
-		mapper.registerModule(new JavaTimeModule());
-		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		log.info(CommonConstants.LOG.ENTRY, "jsonSerialize", JsonHelperUtil.class.getSimpleName());
+
+		log.info(CommonConstants.LOG.EXIT, "jsonSerialize", JsonHelperUtil.class.getSimpleName());
 
 		return mapper.writeValueAsString(instance);
 	}

@@ -87,6 +87,9 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 	private ObjectMapper objectMapper;
 
 	@Autowired
+	private JsonHelperUtil jsonHelperUtil;
+
+	@Autowired
 	private WebApplicationContext context;
 
 	/* To store the value of the authenticated user */
@@ -162,7 +165,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		when(incidentReportService.createIncidentReport(any(IncidentReportRequestDto.class)))
 				.thenReturn(incidentReportResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(incidentReportRequestDto);
+		String content = jsonHelperUtil.jsonSerialize(incidentReportRequestDto);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -206,7 +209,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		when(incidentReportService.updateIncidentReport(any(UUID.class), any(IncidentReportUpdateRequestDto.class)))
 				.thenReturn(incidentReportResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(incidentReportUpdateRequestDto);
+		String content = jsonHelperUtil.jsonSerialize(incidentReportUpdateRequestDto);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -250,7 +253,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		when(incidentReportService.deleteIncidentReport(any(UUID.class), any(DeleteRequestDto.class)))
 				.thenReturn(baseResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(deleteRequestDto);
+		String content = jsonHelperUtil.jsonSerialize(deleteRequestDto);
 
 		// @formatter:off
 		MvcResult result = mockMvc

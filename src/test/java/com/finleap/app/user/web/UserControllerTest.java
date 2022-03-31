@@ -82,6 +82,9 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 	private ObjectMapper objectMapper;
 
 	@Autowired
+	private JsonHelperUtil jsonHelperUtil;
+
+	@Autowired
 	private WebApplicationContext context;
 
 	/* To store the value of the authenticated user */
@@ -152,7 +155,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// when
 		when(userService.createUser(any(UserRequestWithPasswordDto.class))).thenReturn(userResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(userRequestDto);
+		String content = jsonHelperUtil.jsonSerialize(userRequestDto);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -192,7 +195,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// when
 		when(userService.updateUser(any(UserUpdateRequestDto.class))).thenReturn(userResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(userUpdateRequestDto);
+		String content = jsonHelperUtil.jsonSerialize(userUpdateRequestDto);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -231,7 +234,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// when
 		when(userService.deleteUser(any(DeleteRequestDto.class))).thenReturn(baseResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(deleteRequestDto);
+		String content = jsonHelperUtil.jsonSerialize(deleteRequestDto);
 
 		// @formatter:off
 		MvcResult result = mockMvc

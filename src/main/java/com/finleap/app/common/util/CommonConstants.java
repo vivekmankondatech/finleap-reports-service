@@ -51,25 +51,6 @@ public interface CommonConstants {
 
 		String ROLE_DELIMITER = "ROLE_";
 
-		public String SLASH = "/";
-		public String SPACE = " ";
-		public String COMMA = ",";
-
-		public String DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
-		public String DATE_FORMAT_YYYY_MM_DD_T_HH_MM = "yyyy-MM-dd'T'HH:mm";
-		public String TIME_FORMAT_HH_MM = "HH:mm";
-		public String TIME_FORMAT_HH_MM_SS = "HH:mm::ss";
-
-		public String TIMEZONE_ASIA_KOLKATA = "Asia/Kolkata";
-
-		public String SUCCESS = "SUCCESS";
-		public String FAILURE = "FAILURE";
-
-		public String ACCESS_DENIED = "Access Denied";
-
-		public String DOWNLOAD_FILE_WITH_NAME = "attachment; filename=%s";
-
-		public String FILENAME_TEMPLATE = "%s.%s";
 	}
 
 }

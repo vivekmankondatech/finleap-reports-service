@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.finleap.app.common.util.CommonConstants;
-import com.finleap.app.common.util.JsonHelperUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +53,7 @@ public class DataMappingConfig {
 	@Primary
 	public ObjectMapper getMapper() {
 
-		log.info(CommonConstants.LOG.ENTRY, "getMapper", JsonHelperUtil.class.getSimpleName());
+		log.info(CommonConstants.LOG.ENTRY, "getMapper", this.getClass().getName());
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -65,7 +64,7 @@ public class DataMappingConfig {
 		mapper.registerModule(new JavaTimeModule());
 		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-		log.info(CommonConstants.LOG.EXIT, "getMapper", JsonHelperUtil.class.getSimpleName());
+		log.info(CommonConstants.LOG.EXIT, "getMapper", this.getClass().getName());
 
 		return mapper;
 	}

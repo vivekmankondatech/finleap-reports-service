@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JsonHelperUtil {
 
 	@Autowired
-	private ObjectMapper mapper;
+	private static ObjectMapper mapper;
 
 	private JsonHelperUtil() {
 		throw new IllegalStateException("Utility class cannot be instantiated.");
@@ -57,7 +57,7 @@ public class JsonHelperUtil {
 	 * @return
 	 * @throws JsonProcessingException
 	 */
-	public String jsonSerialize(Object instance) throws JsonProcessingException {
+	public static String jsonSerialize(Object instance, ObjectMapper mapper) throws JsonProcessingException {
 
 		log.info(CommonConstants.LOG.ENTRY, "jsonSerialize", JsonHelperUtil.class.getSimpleName());
 

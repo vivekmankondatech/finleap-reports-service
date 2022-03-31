@@ -134,7 +134,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).getUser();
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -173,7 +173,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).createUser(any(UserRequestWithPasswordDto.class));
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -212,7 +212,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).updateUser(any(UserUpdateRequestDto.class));
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -251,7 +251,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).deleteUser(any(DeleteRequestDto.class));
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 

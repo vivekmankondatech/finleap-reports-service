@@ -37,7 +37,9 @@ public interface CommonConstants {
 		/* Message while exiting from the method */
 		public String EXIT = "EXITING METHOD: {} IN CLASS: {}";
 		/* MEssage to display some information */
-		public String INFO = "INFO FROM METHOD: {} IN CLASS: {} Data: {}";
+		public String INFO = "INFO FROM METHOD: {} IN CLASS: {} DATA: {}";
+		/* MEssage to display execution time information */
+		public String EXECUTION_TIME = "EXECUTION TIME OF METHOD: {} IN CLASS: {} :: {} ms";
 		/* Message to display request data */
 		public String REQUEST = "REQUEST Data: {}";
 		/* Message while error in method */

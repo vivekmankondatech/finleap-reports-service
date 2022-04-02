@@ -12,13 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
-import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.report.entity.IncidentReport;
 import com.finleap.app.report.web.dto.request.IncidentReportRequestDto;
 import com.finleap.app.report.web.dto.response.IncidentReportResponseDto;
 import com.finleap.app.user.mapper.UserMapper;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -46,17 +43,12 @@ import lombok.extern.slf4j.Slf4j;
  * </pre>
  */
 @Component
-@Slf4j
 public class IncidentReportMapper {
 
 	@Autowired
 	private UserMapper userMapper;
 
 	public IncidentReport toIncidentReport(IncidentReportRequestDto incidentReportRequestDto) {
-
-		log.info(CommonConstants.LOG.ENTRY, "toIncidentReport", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toIncidentReport", this.getClass().getName());
 
 		// @formatter:off
 		return IncidentReport.builder()
@@ -67,10 +59,6 @@ public class IncidentReportMapper {
 	}
 
 	public IncidentReportResponseDto toIncidentReportResponseDto(IncidentReport incidentReport) {
-
-		log.info(CommonConstants.LOG.ENTRY, "toIncidentReportResponseDto", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toIncidentReportResponseDto", this.getClass().getName());
 
 		// @formatter:off
 		return IncidentReportResponseDto.builder()
@@ -83,10 +71,6 @@ public class IncidentReportMapper {
 
 	public List<IncidentReportResponseDto> toIncidentReportResponseDtos(Collection<IncidentReport> incidentReports) {
 
-		log.info(CommonConstants.LOG.ENTRY, "toIncidentReportResponseDtos", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toIncidentReportResponseDtos", this.getClass().getName());
-
 		// @formatter:off
 		return incidentReports.stream()
 				.map(this::toIncidentReportResponseDto)
@@ -96,9 +80,6 @@ public class IncidentReportMapper {
 	}
 
 	public Page<IncidentReportResponseDto> toPagedIncidentReportResponseDtos(Page<IncidentReport> incidentReports) {
-
-		log.info(CommonConstants.LOG.ENTRY, "toPagedIncidentReportResponseDtos", this.getClass().getName());
-		log.info(CommonConstants.LOG.EXIT, "toPagedIncidentReportResponseDtos", this.getClass().getName());
 
 		return new PageImpl<>(toIncidentReportResponseDtos(incidentReports.getContent()), incidentReports.getPageable(),
 				incidentReports.getTotalElements());

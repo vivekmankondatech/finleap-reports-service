@@ -9,13 +9,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.report.web.dto.response.AssigneeResponseDto;
 import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -43,14 +40,9 @@ import lombok.extern.slf4j.Slf4j;
  * </pre>
  */
 @Component
-@Slf4j
 public class UserMapper {
 
 	public UserResponseDto toUserResponseDto(FinleapUser user) {
-
-		log.info(CommonConstants.LOG.ENTRY, "toUserResponseDto", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toUserResponseDto", this.getClass().getName());
 
 		// @formatter:off
 		return UserResponseDto.builder()
@@ -67,10 +59,6 @@ public class UserMapper {
 
 	public List<UserResponseDto> toUserResponseDtos(Collection<FinleapUser> users) {
 
-		log.info(CommonConstants.LOG.ENTRY, "toUserResponseDtos", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toUserResponseDtos", this.getClass().getName());
-
 		// @formatter:off
 		return users.stream()
 				.map(this::toUserResponseDto)
@@ -79,10 +67,6 @@ public class UserMapper {
 	}
 
 	public FinleapUser toUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
-
-		log.info(CommonConstants.LOG.ENTRY, "toUser", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toUser", this.getClass().getName());
 
 		// @formatter:off
 		return FinleapUser.builder()
@@ -98,10 +82,6 @@ public class UserMapper {
 	}
 
 	public AssigneeResponseDto toAssignee(FinleapUser assignee) {
-
-		log.info(CommonConstants.LOG.ENTRY, "toAssignee", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "toAssignee", this.getClass().getName());
 
 		// @formatter:off
 		return AssigneeResponseDto.builder()

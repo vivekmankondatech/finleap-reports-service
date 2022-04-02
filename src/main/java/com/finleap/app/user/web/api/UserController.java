@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finleap.app.common.response.dto.BaseResponseDto;
-import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
@@ -26,7 +25,6 @@ import com.finleap.app.user.web.dto.response.UserResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -53,7 +51,6 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * </pre>
  */
-@Slf4j
 @RestController
 @RequestMapping("users")
 @Tag(name = "Users", description = "FinleapUser Service")
@@ -77,11 +74,7 @@ public class UserController {
 	public ResponseEntity<UserResponseDto> createUser(
 			@Valid @RequestBody(required = true) UserRequestWithPasswordDto userRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "createUser", this.getClass().getName());
-
 		UserResponseDto userResponseDto = userService.createUser(userRequestDto);
-
-		log.info(CommonConstants.LOG.EXIT, "createUser", this.getClass().getName());
 
 		return ResponseEntity.ok(userResponseDto);
 	}
@@ -96,11 +89,7 @@ public class UserController {
 	public ResponseEntity<UserResponseDto> updateUser(
 			@Valid @RequestBody(required = true) UserUpdateRequestDto userUpdateRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "updateUser", this.getClass().getName());
-
 		UserResponseDto userResponseDto = userService.updateUser(userUpdateRequestDto);
-
-		log.info(CommonConstants.LOG.EXIT, "updateUser", this.getClass().getName());
 
 		return ResponseEntity.ok(userResponseDto);
 	}
@@ -114,11 +103,7 @@ public class UserController {
 	@GetMapping("/me")
 	public ResponseEntity<UserResponseDto> getUser() {
 
-		log.info(CommonConstants.LOG.ENTRY, "getUser", this.getClass().getName());
-
 		UserResponseDto userResponseDto = userService.getUser();
-
-		log.info(CommonConstants.LOG.EXIT, "getUser", this.getClass().getName());
 
 		return ResponseEntity.ok(userResponseDto);
 	}
@@ -133,11 +118,7 @@ public class UserController {
 	public ResponseEntity<BaseResponseDto> deleteUser(
 			@Valid @RequestBody(required = true) DeleteRequestDto userDeleteRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "deleteUser", this.getClass().getName());
-
 		BaseResponseDto baseResponseDto = userService.deleteUser(userDeleteRequestDto);
-
-		log.info(CommonConstants.LOG.EXIT, "deleteUser", this.getClass().getName());
 
 		return ResponseEntity.ok(baseResponseDto);
 	}

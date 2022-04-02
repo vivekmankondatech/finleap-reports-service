@@ -19,7 +19,6 @@ import com.finleap.app.auth.service.CustomUserDetailsService;
 import com.finleap.app.common.exception.DataNotFoundException;
 import com.finleap.app.common.exception.NotAcceptableException;
 import com.finleap.app.common.response.dto.BaseResponseDto;
-import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.entity.UserRole;
 import com.finleap.app.user.entity.enums.UserRoleType;
@@ -31,8 +30,6 @@ import com.finleap.app.user.web.dto.request.DeleteRequestDto;
 import com.finleap.app.user.web.dto.request.UserRequestWithPasswordDto;
 import com.finleap.app.user.web.dto.request.UserUpdateRequestDto;
 import com.finleap.app.user.web.dto.response.UserResponseDto;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -60,7 +57,6 @@ import lombok.extern.slf4j.Slf4j;
  * </pre>
  */
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -74,8 +70,6 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	
-	
 
 	/**
 	 * @param userRepository
@@ -96,28 +90,22 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public UserResponseDto createUser(UserRequestWithPasswordDto userRequestWithPasswordDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "createUser", this.getClass().getName());
-
 		FinleapUser user = userMapper.toUser(userRequestWithPasswordDto);
 
 		user.setUserRole(fetchOrFailUserRoleByType(UserRoleType.EMPLOYEE));
 
 		user = userRepository.save(user);
 
-		log.info(CommonConstants.LOG.EXIT, "createUser", this.getClass().getName());
 		return userMapper.toUserResponseDto(user);
 	}
 
 	/**
+	 * Fetch or Fail UserRole by UserRoleType
 	 * 
 	 * @param type
 	 * @return
 	 */
 	private UserRole fetchOrFailUserRoleByType(UserRoleType type) {
-
-		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailUserRoleByType", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "fetchOrFailUserRoleByType", this.getClass().getName());
 
 		return userRoleRepository.findByType(type).orElseThrow(DataNotFoundException::new);
 
@@ -127,18 +115,21 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public UserResponseDto updateUser(UserUpdateRequestDto userUpdateRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "updateUser", this.getClass().getName());
-
 		FinleapUser user = fetchOrFailLoggedInUser();
 
 		updateUserData(userUpdateRequestDto, user);
 
 		user = userRepository.save(user);
 
-		log.info(CommonConstants.LOG.EXIT, "updateUser", this.getClass().getName());
 		return userMapper.toUserResponseDto(user);
 	}
 
+	/**
+	 * Update User Data
+	 * 
+	 * @param userUpdateRequestDto
+	 * @param user
+	 */
 	private void updateUserData(UserUpdateRequestDto userUpdateRequestDto, FinleapUser user) {
 
 		boolean isUpdated = false;
@@ -178,8 +169,6 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public BaseResponseDto deleteUser(DeleteRequestDto userDeleteRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "deleteUser", this.getClass().getName());
-
 		FinleapUser user = fetchOrFailLoggedInUser();
 
 		user.setComments(userDeleteRequestDto.getReason());
@@ -187,18 +176,13 @@ public class UserServiceImpl implements UserService {
 
 		userRepository.delete(user);
 
-		log.info(CommonConstants.LOG.EXIT, "deleteUser", this.getClass().getName());
 		return BaseResponseDto.builder().build();
 	}
 
 	@Override
 	public FinleapUser fetchOrFailLoggedInUser() {
 
-		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailLoggedInUser", this.getClass().getName());
-
 		UUID userId = customUserDetailsService.getLoggedInUserId();
-
-		log.info(CommonConstants.LOG.EXIT, "fetchOrFailLoggedInUser", this.getClass().getName());
 
 		return userRepository.findById(userId).orElseThrow(DataNotFoundException::new);
 	}
@@ -206,31 +190,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserResponseDto getUser() {
 
-		log.info(CommonConstants.LOG.ENTRY, "getUser", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "getUser", this.getClass().getName());
-
 		return userMapper.toUserResponseDto(fetchOrFailLoggedInUser());
 	}
 
 	@Override
 	public Optional<FinleapUser> getNewAssigneeByUserIdsNotIn(List<UUID> userIds) {
 
-		log.info(CommonConstants.LOG.ENTRY, "getNewAssigneeByUserIdsNotIn", this.getClass().getName());
-
 		List<FinleapUser> users = userRepository.findByIdNotIn(userIds);
-
-		log.info(CommonConstants.LOG.EXIT, "getNewAssigneeByUserIdsNotIn", this.getClass().getName());
 
 		return CollectionUtils.isEmpty(users) ? Optional.empty() : Optional.of(users.get(0));
 	}
 
 	@Override
 	public Optional<FinleapUser> getUserById(UUID userId) {
-
-		log.info(CommonConstants.LOG.ENTRY, "getUserById", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "getUserById", this.getClass().getName());
 
 		return userRepository.findById(userId);
 	}

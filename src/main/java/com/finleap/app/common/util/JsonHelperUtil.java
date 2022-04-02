@@ -3,12 +3,8 @@
  */
 package com.finleap.app.common.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -40,11 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * </pre>
  */
-@Slf4j
 public class JsonHelperUtil {
-
-	@Autowired
-	private static ObjectMapper mapper;
 
 	private JsonHelperUtil() {
 		throw new IllegalStateException("Utility class cannot be instantiated.");
@@ -58,10 +50,6 @@ public class JsonHelperUtil {
 	 * @throws JsonProcessingException
 	 */
 	public static String jsonSerialize(Object instance, ObjectMapper mapper) throws JsonProcessingException {
-
-		log.info(CommonConstants.LOG.ENTRY, "jsonSerialize", JsonHelperUtil.class.getSimpleName());
-
-		log.info(CommonConstants.LOG.EXIT, "jsonSerialize", JsonHelperUtil.class.getSimpleName());
 
 		return mapper.writeValueAsString(instance);
 	}

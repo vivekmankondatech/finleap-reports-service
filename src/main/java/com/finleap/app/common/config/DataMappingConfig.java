@@ -11,9 +11,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.finleap.app.common.util.CommonConstants;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -40,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * </pre>
  */
-@Slf4j
+
 @Configuration
 public class DataMappingConfig {
 
@@ -53,8 +50,6 @@ public class DataMappingConfig {
 	@Primary
 	public ObjectMapper getMapper() {
 
-		log.info(CommonConstants.LOG.ENTRY, "getMapper", this.getClass().getName());
-
 		ObjectMapper mapper = new ObjectMapper();
 
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -63,8 +58,6 @@ public class DataMappingConfig {
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		mapper.registerModule(new JavaTimeModule());
 		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-		log.info(CommonConstants.LOG.EXIT, "getMapper", this.getClass().getName());
 
 		return mapper;
 	}

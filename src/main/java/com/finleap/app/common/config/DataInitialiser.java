@@ -8,12 +8,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.user.entity.UserRole;
 import com.finleap.app.user.entity.enums.UserRoleType;
 import com.finleap.app.user.repository.UserRoleRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -41,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
  * </pre>
  */
 @Component
-@Slf4j
 public class DataInitialiser {
 
 	@Autowired
@@ -49,8 +45,6 @@ public class DataInitialiser {
 
 	@PostConstruct
 	public void initUserRoleData() {
-
-		log.info(CommonConstants.LOG.ENTRY, "initUserRoleData", this.getClass().getName());
 
 		for (UserRoleType type : UserRoleType.values()) {
 
@@ -62,6 +56,5 @@ public class DataInitialiser {
 			}
 		}
 
-		log.info(CommonConstants.LOG.EXIT, "initUserRoleData", this.getClass().getName());
 	}
 }

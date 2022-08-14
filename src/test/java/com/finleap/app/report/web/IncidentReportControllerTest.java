@@ -143,7 +143,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(incidentReportService, times(2)).getAllIncidentReports(pageable);
 		verifyNoMoreInteractions(incidentReportService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -162,7 +162,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		when(incidentReportService.createIncidentReport(any(IncidentReportRequestDto.class)))
 				.thenReturn(incidentReportResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(incidentReportRequestDto);
+		String content = JsonHelperUtil.jsonSerialize(incidentReportRequestDto, objectMapper);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -183,7 +183,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(incidentReportService, times(2)).createIncidentReport(any(IncidentReportRequestDto.class));
 		verifyNoMoreInteractions(incidentReportService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -206,7 +206,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		when(incidentReportService.updateIncidentReport(any(UUID.class), any(IncidentReportUpdateRequestDto.class)))
 				.thenReturn(incidentReportResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(incidentReportUpdateRequestDto);
+		String content = JsonHelperUtil.jsonSerialize(incidentReportUpdateRequestDto, objectMapper);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -228,7 +228,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 				any(IncidentReportUpdateRequestDto.class));
 		verifyNoMoreInteractions(incidentReportService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -250,7 +250,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		when(incidentReportService.deleteIncidentReport(any(UUID.class), any(DeleteRequestDto.class)))
 				.thenReturn(baseResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(deleteRequestDto);
+		String content = JsonHelperUtil.jsonSerialize(deleteRequestDto, objectMapper);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -270,7 +270,7 @@ class IncidentReportControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(incidentReportService, times(2)).deleteIncidentReport(any(UUID.class), any(DeleteRequestDto.class));
 		verifyNoMoreInteractions(incidentReportService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 

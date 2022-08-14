@@ -134,7 +134,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).getUser();
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -152,7 +152,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// when
 		when(userService.createUser(any(UserRequestWithPasswordDto.class))).thenReturn(userResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(userRequestDto);
+		String content = JsonHelperUtil.jsonSerialize(userRequestDto, objectMapper);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -173,7 +173,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).createUser(any(UserRequestWithPasswordDto.class));
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -192,7 +192,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// when
 		when(userService.updateUser(any(UserUpdateRequestDto.class))).thenReturn(userResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(userUpdateRequestDto);
+		String content = JsonHelperUtil.jsonSerialize(userUpdateRequestDto, objectMapper);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -212,7 +212,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).updateUser(any(UserUpdateRequestDto.class));
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 
@@ -231,7 +231,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		// when
 		when(userService.deleteUser(any(DeleteRequestDto.class))).thenReturn(baseResponseDto);
 
-		String content = JsonHelperUtil.jsonSerialize(deleteRequestDto);
+		String content = JsonHelperUtil.jsonSerialize(deleteRequestDto, objectMapper);
 
 		// @formatter:off
 		MvcResult result = mockMvc
@@ -251,7 +251,7 @@ class UserControllerTest extends AbstractSecurityUnitTestConfigurer {
 		verify(userService, times(2)).deleteUser(any(DeleteRequestDto.class));
 		verifyNoMoreInteractions(userService);
 
-		String expectedResponse = objectMapper.writeValueAsString(expectedResult);
+		String expectedResponse = JsonHelperUtil.jsonSerialize(expectedResult, objectMapper);
 
 		JSONAssert.assertEquals(expectedResponse, result.getResponse().getContentAsString(), false);
 

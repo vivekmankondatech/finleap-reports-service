@@ -22,7 +22,6 @@ import org.springframework.util.CollectionUtils;
 import com.finleap.app.common.exception.DataNotFoundException;
 import com.finleap.app.common.exception.InvalidArgumentException;
 import com.finleap.app.common.response.dto.BaseResponseDto;
-import com.finleap.app.common.util.CommonConstants;
 import com.finleap.app.report.entity.IncidentReport;
 import com.finleap.app.report.mapper.IncidentReportMapper;
 import com.finleap.app.report.repository.IncidentReportRepository;
@@ -33,8 +32,6 @@ import com.finleap.app.report.web.dto.response.IncidentReportResponseDto;
 import com.finleap.app.user.entity.FinleapUser;
 import com.finleap.app.user.service.UserService;
 import com.finleap.app.user.web.dto.request.DeleteRequestDto;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Any License information can go here
@@ -62,7 +59,6 @@ import lombok.extern.slf4j.Slf4j;
  * </pre>
  */
 @Service
-@Slf4j
 public class IncidentReportServiceImpl implements IncidentReportService {
 
 	@Autowired
@@ -91,8 +87,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	@Transactional
 	public IncidentReportResponseDto createIncidentReport(IncidentReportRequestDto incidentReportRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "createIncidentReport", this.getClass().getName());
-
 		IncidentReport incidentReport = incidentReportMapper.toIncidentReport(incidentReportRequestDto);
 
 		List<UUID> userIds = getExistingAssigneeIds();
@@ -103,8 +97,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 
 		incidentReport = incidentReportRepository.save(incidentReport);
 
-		log.info(CommonConstants.LOG.EXIT, "createIncidentReport", this.getClass().getName());
-
 		return incidentReportMapper.toIncidentReportResponseDto(incidentReport);
 	}
 
@@ -114,8 +106,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	 */
 	private List<UUID> getExistingAssigneeIds() {
 
-		log.info(CommonConstants.LOG.ENTRY, "getExistingAssigneeIds", this.getClass().getName());
-
 		List<IncidentReport> incidentReports = incidentReportRepository.findAll();
 
 		// @formatter:off
@@ -124,19 +114,13 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 				.collect(Collectors.toList());
 		// @formatter:on
 
-		log.info(CommonConstants.LOG.EXIT, "getExistingAssigneeIds", this.getClass().getName());
-
 		return CollectionUtils.isEmpty(assigneeIds) ? new ArrayList<>() : assigneeIds;
 	}
 
 	@Override
 	public Page<IncidentReportResponseDto> getAllIncidentReports(Pageable pageable) {
 
-		log.info(CommonConstants.LOG.ENTRY, "getAllIncidentReports", this.getClass().getName());
-
 		Page<IncidentReport> incidentReports = incidentReportRepository.findAll(pageable);
-
-		log.info(CommonConstants.LOG.EXIT, "getAllIncidentReports", this.getClass().getName());
 
 		return incidentReportMapper.toPagedIncidentReportResponseDtos(incidentReports);
 	}
@@ -144,8 +128,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	@Override
 	public IncidentReportResponseDto updateIncidentReport(UUID incidentReportId,
 			IncidentReportUpdateRequestDto incidentReportUpdateRequestDto) {
-
-		log.info(CommonConstants.LOG.ENTRY, "updateIncidentReport", this.getClass().getName());
 
 		IncidentReport incidentReport = fetchOrFailIncidentReportById(incidentReportId);
 
@@ -160,8 +142,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 		}
 
 		incidentReport = incidentReportRepository.save(incidentReport);
-
-		log.info(CommonConstants.LOG.EXIT, "updateIncidentReport", this.getClass().getName());
 
 		return incidentReportMapper.toIncidentReportResponseDto(incidentReport);
 	}
@@ -247,8 +227,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	@Override
 	public BaseResponseDto deleteIncidentReport(UUID incidentReportId, DeleteRequestDto deleteRequestDto) {
 
-		log.info(CommonConstants.LOG.ENTRY, "deleteIncidentReport", this.getClass().getName());
-
 		IncidentReport incidentReport = fetchOrFailIncidentReportById(incidentReportId);
 
 		incidentReport.setComments(deleteRequestDto.getReason());
@@ -256,7 +234,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 
 		incidentReportRepository.delete(incidentReport);
 
-		log.info(CommonConstants.LOG.EXIT, "deleteIncidentReport", this.getClass().getName());
 		return BaseResponseDto.builder().build();
 	}
 
@@ -266,10 +243,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
 	 * @return
 	 */
 	private IncidentReport fetchOrFailIncidentReportById(UUID incidentReportId) {
-
-		log.info(CommonConstants.LOG.ENTRY, "fetchOrFailHikerById", this.getClass().getName());
-
-		log.info(CommonConstants.LOG.EXIT, "fetchOrFailHikerById", this.getClass().getName());
 
 		return incidentReportRepository.findById(incidentReportId).orElseThrow(DataNotFoundException::new);
 	}
